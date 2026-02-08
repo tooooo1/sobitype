@@ -1,115 +1,119 @@
-'use client'
+"use client";
 
-import { useEffect, useState } from 'react'
-import { CHARACTERS, SUB_TAGS } from '@/lib/characters'
-import { buildShareURL, getCompatComment, trackEvent } from '@/lib/utils'
-import type { EIAxis, MainCode } from '@/types'
+import { useEffect, useState } from "react";
+import { CHARACTERS, SUB_TAGS } from "@/lib/characters";
+import { buildShareURL, getCompatComment, trackEvent } from "@/lib/utils";
+import type { EIAxis, MainCode } from "@/types";
 
 interface ResultScreenProps {
-  mainCode: MainCode
-  subCode: EIAxis
-  randomTag: string
-  refCode: MainCode | null
+  mainCode: MainCode;
+  subCode: EIAxis;
+  randomTag: string;
+  refCode: MainCode | null;
 }
 
 const ResultScreen = ({ mainCode, subCode, randomTag, refCode }: ResultScreenProps) => {
-  const [copied, setCopied] = useState(false)
-  const [onelineCopied, setOnelineCopied] = useState(false)
-  const [showCompat, setShowCompat] = useState(false)
+  const [copied, setCopied] = useState(false);
+  const [onelineCopied, setOnelineCopied] = useState(false);
+  const [showCompat, setShowCompat] = useState(false);
 
-  const character = CHARACTERS[mainCode]
-  const subTag = SUB_TAGS[subCode]
-  const bestMatch = CHARACTERS[character.match.best]
-  const worstMatch = CHARACTERS[character.match.worst]
-  const refCharacter = refCode ? CHARACTERS[refCode] : null
+  const character = CHARACTERS[mainCode];
+  const fullCode = `${mainCode}${subCode}`;
+  const subTag = SUB_TAGS[subCode];
+  const bestMatch = CHARACTERS[character.match.best];
+  const worstMatch = CHARACTERS[character.match.worst];
+  const refCharacter = refCode ? CHARACTERS[refCode] : null;
 
   useEffect(() => {
-    trackEvent('result_view', {
-      full_code: `${mainCode}${subCode}`,
+    trackEvent("result_view", {
+      full_code: fullCode,
       main_code: mainCode,
       character_name: character.name,
       rarity: String(character.rarity),
-    })
+    });
 
     if (refCode) {
       const timer = setTimeout(() => {
-        setShowCompat(true)
-        trackEvent('compat_auto', { my_code: mainCode, partner_code: refCode })
-      }, 500)
-      return () => clearTimeout(timer)
+        setShowCompat(true);
+        trackEvent("compat_auto", { my_code: mainCode, partner_code: refCode });
+      }, 500);
+      return () => clearTimeout(timer);
     }
-  }, [mainCode, subCode, character, refCode])
+  }, [mainCode, subCode, fullCode, character, refCode]);
 
   const copyToClipboard = async (text: string, onSuccess: () => void) => {
     try {
-      await navigator.clipboard.writeText(text)
-      onSuccess()
+      await navigator.clipboard.writeText(text);
+      onSuccess();
     } catch {
-      /* clipboard failed silently */
+      /* noop */
     }
-  }
+  };
 
   const handleCopyOneliner = () => {
-    const text = `나의 소비 캐릭터는 "${character.name}" ${character.emoji}\n💬 ${character.oneLiner}\n\n나도 테스트하기 → ${buildShareURL(mainCode, subCode, 'oneline')}`
+    const text = `나의 소비 캐릭터는 "${character.name}" ${character.emoji}\n💬 ${character.oneLiner}\n\n나도 테스트하기 → ${buildShareURL(mainCode, subCode, "oneline")}`;
     copyToClipboard(text, () => {
-      setOnelineCopied(true)
-      trackEvent('share_oneline', { channel: 'oneline', full_code: `${mainCode}${subCode}` })
-      setTimeout(() => setOnelineCopied(false), 2000)
-    })
-  }
+      setOnelineCopied(true);
+      trackEvent("share_oneline", { channel: "oneline", full_code: fullCode });
+      setTimeout(() => setOnelineCopied(false), 2000);
+    });
+  };
 
   const handleCopyLink = () => {
-    copyToClipboard(buildShareURL(mainCode, subCode, 'link'), () => {
-      setCopied(true)
-      trackEvent('share_link', { channel: 'link', full_code: `${mainCode}${subCode}` })
-      setTimeout(() => setCopied(false), 2000)
-    })
-  }
+    copyToClipboard(buildShareURL(mainCode, subCode, "link"), () => {
+      setCopied(true);
+      trackEvent("share_link", { channel: "link", full_code: fullCode });
+      setTimeout(() => setCopied(false), 2000);
+    });
+  };
 
   const handleKakao = () => {
-    trackEvent('share_kakao', { channel: 'kakao', full_code: `${mainCode}${subCode}` })
-    alert('카카오톡 공유 기능은 곧 추가됩니다!')
-  }
+    trackEvent("share_kakao", { channel: "kakao", full_code: fullCode });
+    alert("카카오톡 공유 기능은 곧 추가됩니다!");
+  };
 
   const handleRestart = () => {
-    trackEvent('restart')
-    window.location.href = window.location.origin
-  }
+    trackEvent("restart");
+    window.location.href = window.location.origin;
+  };
 
   const handleCompatShare = () => {
-    if (!refCode) return
-    copyToClipboard(buildShareURL(mainCode, subCode, 'compat'), () => {
-      trackEvent('compat_share', { my_code: mainCode, partner_code: refCode })
-    })
-  }
+    if (!refCode) {
+      return;
+    }
+    copyToClipboard(buildShareURL(mainCode, subCode, "compat"), () => {
+      trackEvent("compat_share", { my_code: mainCode, partner_code: refCode });
+    });
+  };
 
-  // Stat bar 인라인 (27줄짜리 파일을 별도 컴포넌트로 만들 이유 없음)
-  const statBar = (label: string, value: number) => (
-    <div className="flex items-center gap-2">
-      <span className="w-16 text-xs text-white/70">{label}</span>
-      <div className="flex-1 h-2.5 rounded-full bg-white/10 overflow-hidden">
-        <div
-          className="h-full rounded-full transition-all duration-1000 ease-out"
-          style={{
-            width: `${value}%`,
-            background: `linear-gradient(to right, ${character.color}80, ${character.color})`,
-          }}
-        />
+  const statBar = (label: string, value: number) => {
+    return (
+      <div className="flex items-center gap-2">
+        <span className="w-16 text-xs text-white/70">{label}</span>
+        <div className="flex-1 h-2.5 rounded-full bg-white/10 overflow-hidden">
+          <div
+            className="h-full rounded-full transition-all duration-1000 ease-out"
+            style={{
+              width: `${value}%`,
+              background: `linear-gradient(to right, ${character.color}80, ${character.color})`,
+            }}
+          />
+        </div>
+        <span className="w-8 text-xs text-right text-white/70">{value}%</span>
       </div>
-      <span className="w-8 text-xs text-right text-white/70">{value}%</span>
-    </div>
-  )
+    );
+  };
 
   return (
     <div className="flex flex-col items-center min-h-screen px-4 py-8 gap-6">
-      {/* ── CHARACTER CARD ── */}
+      {/* CHARACTER CARD */}
       <div
         className="relative w-full max-w-sm rounded-3xl p-6 overflow-hidden"
         style={{ background: character.gradient }}
       >
         <div
           className="absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-bold"
-          style={{ backgroundColor: character.badgeColor, color: '#fff' }}
+          style={{ backgroundColor: character.badgeColor, color: "#fff" }}
         >
           {character.badge}
         </div>
@@ -140,9 +144,9 @@ const ResultScreen = ({ mainCode, subCode, randomTag, refCode }: ResultScreenPro
         </div>
 
         <div className="flex flex-col gap-2 mb-6">
-          {statBar('계획력', character.stats.plan)}
-          {statBar('투자성향', character.stats.invest)}
-          {statBar('YOLO', character.stats.yolo)}
+          {statBar("계획력", character.stats.plan)}
+          {statBar("투자성향", character.stats.invest)}
+          {statBar("YOLO", character.stats.yolo)}
         </div>
 
         <div className="bg-black/20 rounded-xl p-4 mb-4">
@@ -152,13 +156,13 @@ const ResultScreen = ({ mainCode, subCode, randomTag, refCode }: ResultScreenPro
         <p className="text-center text-xs text-white/30">📸 스크린샷 찍어서 공유해도 👍</p>
       </div>
 
-      {/* ── SHARE BUTTONS ── */}
+      {/* SHARE */}
       <div className="flex flex-col gap-3 w-full max-w-sm">
         <button
           type="button"
           onClick={handleKakao}
           className="w-full py-3.5 rounded-xl font-semibold text-sm transition-transform active:scale-95"
-          style={{ backgroundColor: '#FEE500', color: '#191919' }}
+          style={{ backgroundColor: "#FEE500", color: "#191919" }}
         >
           카카오톡 공유
         </button>
@@ -166,23 +170,21 @@ const ResultScreen = ({ mainCode, subCode, randomTag, refCode }: ResultScreenPro
         <button
           type="button"
           onClick={handleCopyOneliner}
-          className="w-full py-3.5 rounded-xl bg-white/10 text-white text-sm font-semibold
-                     transition-transform active:scale-95"
+          className="w-full py-3.5 rounded-xl bg-white/10 text-white text-sm font-semibold transition-transform active:scale-95"
         >
-          {onelineCopied ? '복사 완료!' : '📋 한 줄 복사 (단톡방용)'}
+          {onelineCopied ? "복사 완료!" : "📋 한 줄 복사 (단톡방용)"}
         </button>
 
         <button
           type="button"
           onClick={handleCopyLink}
-          className="w-full py-3.5 rounded-xl bg-white/10 text-white text-sm font-semibold
-                     transition-transform active:scale-95"
+          className="w-full py-3.5 rounded-xl bg-white/10 text-white text-sm font-semibold transition-transform active:scale-95"
         >
-          {copied ? '복사 완료!' : '🔗 링크 복사'}
+          {copied ? "복사 완료!" : "🔗 링크 복사"}
         </button>
       </div>
 
-      {/* ── AUTO COMPATIBILITY (referral) ── */}
+      {/* COMPAT — referral */}
       {refCharacter && refCode && showCompat && (
         <div
           className="w-full max-w-sm rounded-2xl p-6"
@@ -210,15 +212,14 @@ const ResultScreen = ({ mainCode, subCode, randomTag, refCode }: ResultScreenPro
           <button
             type="button"
             onClick={handleCompatShare}
-            className="mt-4 w-full py-2.5 rounded-xl bg-white/10 text-xs text-white/60
-                       transition-transform active:scale-95"
+            className="mt-4 w-full py-2.5 rounded-xl bg-white/10 text-xs text-white/60 transition-transform active:scale-95"
           >
             궁합 결과 공유하기
           </button>
         </div>
       )}
 
-      {/* ── STATIC COMPATIBILITY (no referral) ── */}
+      {/* COMPAT — static */}
       {!refCharacter && (
         <div className="w-full max-w-sm rounded-2xl bg-white/5 p-6">
           <div className="flex flex-col gap-4 mb-5">
@@ -241,15 +242,13 @@ const ResultScreen = ({ mainCode, subCode, randomTag, refCode }: ResultScreenPro
           <button
             type="button"
             onClick={handleCopyLink}
-            className="w-full py-2.5 rounded-xl bg-white/10 text-xs text-white/60
-                       transition-transform active:scale-95"
+            className="w-full py-2.5 rounded-xl bg-white/10 text-xs text-white/60 transition-transform active:scale-95"
           >
             친구한테 보내서 궁합 확인하기 →
           </button>
         </div>
       )}
 
-      {/* ── RESTART ── */}
       <button
         type="button"
         onClick={handleRestart}
@@ -258,7 +257,7 @@ const ResultScreen = ({ mainCode, subCode, randomTag, refCode }: ResultScreenPro
         🔄 다시 하기
       </button>
     </div>
-  )
-}
+  );
+};
 
-export default ResultScreen
+export default ResultScreen;

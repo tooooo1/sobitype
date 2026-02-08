@@ -5,42 +5,15 @@
   --color-foreground: #ededed;
 }
 
-:root {
-  --background: #06060f;
-  --foreground: #ededed;
-}
-
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
-
 html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--color-background);
+  color: var(--color-foreground);
 }
 
-body {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* Custom animations */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
+/* flash 애니메이션 — 질문 선택 후 통계 텍스트 */
 @keyframes flash {
   0% {
     opacity: 0;
@@ -56,35 +29,18 @@ body {
   }
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.animate-fade-in {
-  animation: fadeIn 0.4s ease-out;
-}
-
 .animate-flash {
   animation: flash 0.4s ease-out;
 }
 
-.animate-spin-custom {
-  animation: spin 1s linear infinite;
-}
-
-/* Smooth scrolling */
 html {
   scroll-behavior: smooth;
 }
 
-/* Hide scrollbar but keep functionality */
 ::-webkit-scrollbar {
   display: none;
 }
 
-/* Touch optimization */
 button {
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;

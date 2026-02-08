@@ -24,6 +24,7 @@
       },
       "style": {
         "noNonNullAssertion": "off",
+        "useBlockStatements": "error",
         "useReactFunctionComponents": "error"
       },
       "suspicious": {
@@ -34,9 +35,9 @@
   },
   "javascript": {
     "formatter": {
-      "quoteStyle": "single",
+      "quoteStyle": "double",
       "jsxQuoteStyle": "double",
-      "semicolons": "asNeeded"
+      "semicolons": "always"
     }
   },
   "css": {
@@ -46,7 +47,7 @@
     }
   },
   "files": {
-    "includes": ["src/**", "*.ts", "*.json", "*.mjs"],
+    "includes": ["src/**", "*.ts", "*.json", "*.mjs", "!next-env.d.ts"],
     "ignoreUnknown": true
   }
 }

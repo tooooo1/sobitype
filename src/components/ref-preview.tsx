@@ -1,10 +1,10 @@
-'use client'
+"use client";
 
-import type { Character } from '@/types'
+import type { Character } from "@/types";
 
 interface RefPreviewProps {
-  refCharacter: Character
-  onStart: () => void
+  refCharacter: Character;
+  onStart: () => void;
 }
 
 const RefPreview = ({ refCharacter, onStart }: RefPreviewProps) => {
@@ -32,7 +32,7 @@ const RefPreview = ({ refCharacter, onStart }: RefPreviewProps) => {
         나도 해보고 비교하기 👀
       </button>
     </div>
-  )
-}
+  );
+};
 
-export default RefPreview
+export default RefPreview;

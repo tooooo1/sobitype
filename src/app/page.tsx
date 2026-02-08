@@ -1,5 +1,7 @@
-import SpendingTest from '@/components/spending-test'
+import SpendingTest from "@/components/spending-test";
 
-export default function Home() {
-  return <SpendingTest />
-}
+const Home = () => {
+  return <SpendingTest />;
+};
+
+export default Home;
