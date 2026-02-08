@@ -9,29 +9,34 @@ interface RefPreviewProps {
 
 const RefPreview = ({ refCharacter, onStart }: RefPreviewProps) => {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen px-6 text-center">
-      <p className="text-sm text-white/50 mb-4">친구의 소비 캐릭터</p>
+    <main
+      className="flex flex-col items-center justify-center min-h-screen px-6 text-center"
+      aria-label="친구의 소비 캐릭터 미리보기"
+    >
+      <p className="text-sm text-white/60 mb-4">친구의 소비 캐릭터</p>
 
-      <div className="text-5xl mb-4">{refCharacter.emoji}</div>
+      <div className="text-5xl mb-4" role="img" aria-label={refCharacter.name}>
+        {refCharacter.emoji}
+      </div>
 
-      <h2 className="text-2xl font-bold mb-1" style={{ color: refCharacter.color }}>
+      <h1 className="text-2xl font-bold mb-1" style={{ color: refCharacter.color }}>
         {refCharacter.name}
-      </h2>
+      </h1>
 
-      <p className="text-white/60 text-sm mb-10">{refCharacter.title}</p>
+      <p className="text-white/70 text-sm mb-10">{refCharacter.title}</p>
 
       <button
         type="button"
         onClick={onStart}
         className="px-8 py-4 rounded-2xl text-white font-semibold text-lg
-                   transition-transform active:scale-95"
+                   transition-transform active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60"
         style={{
           background: `linear-gradient(135deg, ${refCharacter.color}, ${refCharacter.color}99)`,
         }}
       >
         나도 해보고 비교하기 👀
       </button>
-    </div>
+    </main>
   );
 };
 

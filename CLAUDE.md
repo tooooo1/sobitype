@@ -1,54 +1,44 @@
-# Sobitype — 내 소비 캐릭터는?
+# Sobitype
 
-바이럴 소비 캐릭터 테스트. 4문항 밸런스게임 → 8캐릭터 결과 → 공유 루프.
+바이럴 소비 캐릭터 테스트. 4문항 -> 8캐릭터 -> 공유 루프.
 
-## Tech Stack
-- Next.js 16 (App Router, Turbopack)
-- React 19
-- TypeScript (strict)
-- Tailwind CSS v4
-- Biome (linter + formatter)
-- Bun (package manager + runtime)
+## 스택
 
-## Project Structure
+Next.js 16 + React 19 + TypeScript strict + Tailwind v4 + Biome 2 + Bun
+
+React Compiler ON. useCallback/useMemo 쓰지 않는다.
+
+## 구조
+
 ```
 src/
-  app/           # Next.js App Router pages
-    layout.tsx   # Root layout (Korean locale, fonts, meta)
-    page.tsx     # Entry point → SpendingTest component
-    globals.css  # Global styles, animations, dark theme
-  components/    # React client components
-    spending-test.tsx    # Main orchestrator (state machine)
-    question-screen.tsx  # Balance-game question UI
-    result-screen.tsx    # Character card + share + compat
-    loading-screen.tsx   # Loading animation
-    ref-preview.tsx      # Friend's character preview
-    stat-bar.tsx         # Animated stat bar
-    progress-bar.tsx     # Question progress indicator
-  lib/           # Pure logic, no React
-    characters.ts  # All character data, questions, compat comments
-    utils.ts       # Helper functions (GA4, URL, sharing)
-  types/         # TypeScript type definitions
-    index.ts       # All shared types
+  app/layout.tsx        # 루트 레이아웃 (ko, Pretendard)
+  app/page.tsx          # 서버 컴포넌트. searchParams에서 ?ref= 파싱
+  app/globals.css       # 다크 테마, 애니메이션, 접근성
+  components/
+    spending-test.tsx   # 상태머신 (ref-preview → question → loading → result)
+    question-screen.tsx # 밸런스게임 UI
+    result-screen.tsx   # 캐릭터 카드 + 공유 + 궁합
+    loading-screen.tsx  # 로딩 시퀀스
+    ref-preview.tsx     # 친구 캐릭터 미리보기
+  lib/
+    characters.ts       # 캐릭터 8종, 질문 4개, 궁합 코멘트, 로딩 텍스트
+    utils.ts            # GA4, 공유 URL, 타입가드
+  types/index.ts        # 모든 타입 정의
 ```
 
-## Conventions
-- All components are client components ("use client")
-- Data and types are separated from components
-- Korean text in components, English in code/comments
-- Mobile-first design (max-width: 420px target)
-- Dark mode only (background: #06060f)
-- No external state management (React useState/useCallback only)
+## 명령어
 
-## Key Commands
-- `bun dev` — Start dev server (Turbopack)
-- `bun run build` — Production build
-- `bun run lint` — Biome check
-- `bun run lint:fix` — Biome auto-fix
-- `bun run format` — Biome format
+- `bun dev` — 개발 서버
+- `bun run build` — 프로덕션 빌드
+- `bun run lint` — Biome 검사
+- `bun run lint:fix` — Biome 자동 수정
 
-## Character System
-- 4 axes: S/P (spending), E/I (openness), N/R (investment), F/L (time)
-- 8 main characters from 3 axes (S/P × N/R × F/L)
-- E/I axis determines sub-variant tags
-- Random tag adds variety (G/T equivalent)
+## 규칙
+
+- `page.tsx`는 서버 컴포넌트. 나머지 컴포넌트는 `"use client"`
+- 외부 상태관리 없음. `useState`만 사용
+- 타입 단언(`as`) 금지. 타입가드 사용
+- 화살표 함수만. `"` 쌍따옴표, `;` 세미콜론, `if` 중괄호 필수
+- 한국어 텍스트, 영어 코드/주석
+- 다크 모드 전용, 모바일 퍼스트 (max-width: 420px)

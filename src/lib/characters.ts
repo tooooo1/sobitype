@@ -5,7 +5,7 @@ export const QUESTIONS: readonly [Question, Question, Question, Question] = [
     id: "q1",
     axis: "SP",
     text: "로또 1등 당첨!\n어떻게 받을래?",
-    a: { text: "일시불 30억(세후 15억) 💰", emoji: "💰", value: "S" },
+    a: { text: "일시불 30억(세후 15억) 📊", emoji: "📊", value: "S" },
     b: { text: "매달 500만원 평생 💸", emoji: "💸", value: "P" },
     ratio: { A: 52, B: 48 },
   },
@@ -23,14 +23,14 @@ export const QUESTIONS: readonly [Question, Question, Question, Question] = [
     text: "신이 투자 기회를 줬다.\n뭘 고를래?",
     a: { text: "3년 뒤 확정 2배 🎯", emoji: "🎯", value: "R" },
     b: { text: "50% 확률 10배, 실패하면 0원 🎲", emoji: "🎲", value: "N" },
-    ratio: { A: 55, B: 45 },
+    ratio: { A: 45, B: 55 },
   },
   {
     id: "q4",
     axis: "FL",
     text: "신이 제안한다.\n뭘 고를래?",
     a: { text: "1년 세계여행, 복귀 후 현재 연봉 ✈️", emoji: "✈️", value: "F" },
-    b: { text: "1년 지옥 노동, 복귀 후 연봉 2배 🔥", emoji: "🔥", value: "L" },
+    b: { text: "1년 지옥 노동, 복귀 후 연봉 2배 💰", emoji: "💰", value: "L" },
     ratio: { A: 58, B: 42 },
   },
 ];
@@ -179,7 +179,7 @@ export const COMPAT_COMMENTS: Record<string, string> = {
 };
 
 export const LOADING_TEXTS = [
-  "소비 DNA 분석 중...",
+  "돈 DNA 분석 중...",
   "유형 매칭 중...",
   "당신과 비슷한 유명인 찾는 중... 👀",
 ] as const;

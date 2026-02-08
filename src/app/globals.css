@@ -13,7 +13,6 @@ body {
   color: var(--color-foreground);
 }
 
-/* flash 애니메이션 — 질문 선택 후 통계 텍스트 */
 @keyframes flash {
   0% {
     opacity: 0;
@@ -31,6 +30,16 @@ body {
 
 .animate-flash {
   animation: flash 0.4s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-flash {
+    animation: none;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 html {

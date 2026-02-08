@@ -37,9 +37,10 @@ const ResultScreen = ({ mainCode, subCode, randomTag, refCode }: ResultScreenPro
         setShowCompat(true);
         trackEvent("compat_auto", { my_code: mainCode, partner_code: refCode });
       }, 500);
+
       return () => clearTimeout(timer);
     }
-  }, [mainCode, subCode, fullCode, character, refCode]);
+  }, [mainCode, fullCode, character, refCode]);
 
   const copyToClipboard = async (text: string, onSuccess: () => void) => {
     try {
@@ -89,79 +90,82 @@ const ResultScreen = ({ mainCode, subCode, randomTag, refCode }: ResultScreenPro
   const statBar = (label: string, value: number) => {
     return (
       <div className="flex items-center gap-2">
-        <span className="w-16 text-xs text-white/70">{label}</span>
-        <div className="flex-1 h-2.5 rounded-full bg-white/10 overflow-hidden">
+        <span className="w-14 text-xs text-white/80">{label}</span>
+        <div className="flex-1 h-2 rounded-full bg-white/10 overflow-hidden">
           <div
-            className="h-full rounded-full transition-all duration-1000 ease-out"
+            className="h-full rounded-full motion-safe:transition-all motion-safe:duration-1000 ease-out"
             style={{
               width: `${value}%`,
               background: `linear-gradient(to right, ${character.color}80, ${character.color})`,
             }}
           />
         </div>
-        <span className="w-8 text-xs text-right text-white/70">{value}%</span>
+        <span className="w-8 text-xs text-right text-white/80">{value}%</span>
       </div>
     );
   };
 
   return (
-    <div className="flex flex-col items-center min-h-screen px-4 py-8 gap-6">
+    <main className="flex flex-col items-center min-h-screen px-4 py-6 gap-4">
       {/* CHARACTER CARD */}
-      <div
-        className="relative w-full max-w-sm rounded-3xl p-6 overflow-hidden"
+      <section
+        className="relative w-full max-w-sm rounded-3xl p-5 overflow-hidden"
         style={{ background: character.gradient }}
+        aria-label={`${character.name} 캐릭터 카드`}
       >
-        <div
-          className="absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-bold"
+        <span
+          className="absolute top-3 right-3 px-2.5 py-0.5 rounded-full text-xs font-bold"
           style={{ backgroundColor: character.badgeColor, color: "#fff" }}
         >
           {character.badge}
-        </div>
+        </span>
 
-        <p className="text-xs text-white/50 mb-4">내 소비 캐릭터</p>
+        <p className="text-xs text-white/60 mb-3">내 소비 캐릭터</p>
 
-        <div className="flex flex-col items-center text-center mb-4">
-          <div className="text-6xl mb-3">{character.emoji}</div>
-          <h2 className="text-2xl font-bold mb-1" style={{ color: character.color }}>
+        <div className="flex flex-col items-center text-center mb-3">
+          <div className="text-5xl mb-2" role="img" aria-label={character.name}>
+            {character.emoji}
+          </div>
+          <h1 className="text-2xl font-bold mb-0.5" style={{ color: character.color }}>
             {character.name}
-          </h2>
-          <p className="text-white/60 text-sm">{character.title}</p>
+          </h1>
+          <p className="text-white/70 text-sm">{character.title}</p>
         </div>
 
-        <div className="flex justify-center mb-4">
-          <span className="px-3 py-1 rounded-full bg-white/10 text-xs text-white/70">
+        <div className="flex justify-center mb-3">
+          <span className="px-3 py-0.5 rounded-full bg-white/10 text-xs text-white/80">
             전국에서 {character.rarity}%만 이 유형
           </span>
         </div>
 
-        <div className="flex justify-center gap-2 mb-6">
-          <span className="px-3 py-1 rounded-full bg-white/10 text-xs text-white/60">
+        <div className="flex justify-center gap-2 mb-4">
+          <span className="px-2.5 py-0.5 rounded-full bg-white/10 text-xs text-white/70">
             #{subTag}
           </span>
-          <span className="px-3 py-1 rounded-full bg-white/10 text-xs text-white/60">
+          <span className="px-2.5 py-0.5 rounded-full bg-white/10 text-xs text-white/70">
             #{randomTag}
           </span>
         </div>
 
-        <div className="flex flex-col gap-2 mb-6">
+        <div className="flex flex-col gap-1.5 mb-4">
           {statBar("계획력", character.stats.plan)}
           {statBar("투자성향", character.stats.invest)}
           {statBar("YOLO", character.stats.yolo)}
         </div>
 
-        <div className="bg-black/20 rounded-xl p-4 mb-4">
-          <p className="text-sm text-white/80 text-center">💬 &ldquo;{character.oneLiner}&rdquo;</p>
+        <div className="bg-black/20 rounded-xl p-3 mb-3">
+          <p className="text-sm text-white/90 text-center">💬 &ldquo;{character.oneLiner}&rdquo;</p>
         </div>
 
-        <p className="text-center text-xs text-white/30">📸 스크린샷 찍어서 공유해도 👍</p>
-      </div>
+        <p className="text-center text-xs text-white/50">📸 스크린샷 찍어서 공유해도 👍</p>
+      </section>
 
       {/* SHARE */}
-      <div className="flex flex-col gap-3 w-full max-w-sm">
+      <div className="flex flex-col gap-2.5 w-full max-w-sm">
         <button
           type="button"
           onClick={handleKakao}
-          className="w-full py-3.5 rounded-xl font-semibold text-sm transition-transform active:scale-95"
+          className="w-full py-3 rounded-xl font-semibold text-sm transition-transform active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400"
           style={{ backgroundColor: "#FEE500", color: "#191919" }}
         >
           카카오톡 공유
@@ -170,70 +174,81 @@ const ResultScreen = ({ mainCode, subCode, randomTag, refCode }: ResultScreenPro
         <button
           type="button"
           onClick={handleCopyOneliner}
-          className="w-full py-3.5 rounded-xl bg-white/10 text-white text-sm font-semibold transition-transform active:scale-95"
+          aria-live="polite"
+          className="w-full py-3 rounded-xl bg-white/15 border border-white/20 text-white text-sm font-semibold transition-transform active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60"
         >
-          {onelineCopied ? "복사 완료!" : "📋 한 줄 복사 (단톡방용)"}
+          {onelineCopied ? "✅ 복사 완료!" : "📋 한 줄 복사 (단톡방용)"}
         </button>
 
         <button
           type="button"
           onClick={handleCopyLink}
-          className="w-full py-3.5 rounded-xl bg-white/10 text-white text-sm font-semibold transition-transform active:scale-95"
+          aria-live="polite"
+          className="w-full py-3 rounded-xl bg-white/15 border border-white/20 text-white text-sm font-semibold transition-transform active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60"
         >
-          {copied ? "복사 완료!" : "🔗 링크 복사"}
+          {copied ? "✅ 복사 완료!" : "🔗 링크 복사"}
         </button>
       </div>
 
       {/* COMPAT — referral */}
       {refCharacter && refCode && showCompat && (
-        <div
-          className="w-full max-w-sm rounded-2xl p-6"
+        <section
+          className="w-full max-w-sm rounded-2xl p-5"
           style={{
             background: `linear-gradient(135deg, ${character.color}33, ${refCharacter.color}33)`,
           }}
+          aria-label="궁합 결과"
         >
-          <h3 className="text-center text-lg font-bold mb-5">🔮 너와 친구의 궁합</h3>
+          <h2 className="text-center text-lg font-bold mb-4">🔮 너와 친구의 궁합</h2>
 
-          <div className="flex items-center justify-center gap-6 mb-5">
+          <div className="flex items-center justify-center gap-6 mb-4">
             <div className="flex flex-col items-center gap-1">
-              <span className="text-4xl">{character.emoji}</span>
-              <span className="text-xs text-white/50">나</span>
+              <span className="text-4xl" role="img" aria-label={character.name}>
+                {character.emoji}
+              </span>
+              <span className="text-xs text-white/70">나</span>
             </div>
             <div className="flex flex-col items-center gap-1">
-              <span className="text-4xl">{refCharacter.emoji}</span>
-              <span className="text-xs text-white/50">친구</span>
+              <span className="text-4xl" role="img" aria-label={refCharacter.name}>
+                {refCharacter.emoji}
+              </span>
+              <span className="text-xs text-white/70">친구</span>
             </div>
           </div>
 
-          <p className="text-sm text-white/80 text-center leading-relaxed">
+          <p className="text-sm text-white/90 text-center leading-relaxed">
             {getCompatComment(mainCode, refCode)}
           </p>
 
           <button
             type="button"
             onClick={handleCompatShare}
-            className="mt-4 w-full py-2.5 rounded-xl bg-white/10 text-xs text-white/60 transition-transform active:scale-95"
+            className="mt-4 w-full py-3 rounded-xl bg-white/15 border border-white/20 text-sm text-white/80 transition-transform active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60"
           >
             궁합 결과 공유하기
           </button>
-        </div>
+        </section>
       )}
 
       {/* COMPAT — static */}
       {!refCharacter && (
-        <div className="w-full max-w-sm rounded-2xl bg-white/5 p-6">
-          <div className="flex flex-col gap-4 mb-5">
+        <section className="w-full max-w-sm rounded-2xl bg-white/5 p-5" aria-label="궁합 정보">
+          <div className="flex flex-col gap-3 mb-4">
             <div className="flex items-center gap-3">
-              <span className="text-2xl">{bestMatch.emoji}</span>
+              <span className="text-2xl" role="img" aria-label={bestMatch.name}>
+                {bestMatch.emoji}
+              </span>
               <div>
-                <p className="text-xs text-white/40">💕 찰떡궁합</p>
+                <p className="text-xs text-white/60">💕 찰떡궁합</p>
                 <p className="text-sm font-semibold">{bestMatch.name}</p>
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <span className="text-2xl">{worstMatch.emoji}</span>
+              <span className="text-2xl" role="img" aria-label={worstMatch.name}>
+                {worstMatch.emoji}
+              </span>
               <div>
-                <p className="text-xs text-white/40">💥 상극</p>
+                <p className="text-xs text-white/60">💥 상극</p>
                 <p className="text-sm font-semibold">{worstMatch.name}</p>
               </div>
             </div>
@@ -242,21 +257,21 @@ const ResultScreen = ({ mainCode, subCode, randomTag, refCode }: ResultScreenPro
           <button
             type="button"
             onClick={handleCopyLink}
-            className="w-full py-2.5 rounded-xl bg-white/10 text-xs text-white/60 transition-transform active:scale-95"
+            className="w-full py-3 rounded-xl bg-white/15 border border-white/20 text-sm text-white/80 transition-transform active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60"
           >
             친구한테 보내서 궁합 확인하기 →
           </button>
-        </div>
+        </section>
       )}
 
       <button
         type="button"
         onClick={handleRestart}
-        className="mt-2 mb-8 text-sm text-white/40 hover:text-white/60 transition-colors"
+        className="mt-1 mb-6 py-2 px-4 text-sm text-white/60 hover:text-white/80 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60"
       >
         🔄 다시 하기
       </button>
-    </div>
+    </main>
   );
 };
 

@@ -46,7 +46,7 @@ const QuestionScreen = ({ question, index, total, onAnswer }: QuestionScreenProp
         key={choice}
         onClick={() => handleSelect(choice)}
         disabled={selected !== null}
-        className={`w-full p-5 rounded-2xl border-2 text-left transition-all duration-300
+        className={`w-full p-5 rounded-2xl border-2 text-left motion-safe:transition-all motion-safe:duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60
           ${
             isSelected
               ? "border-white/60 bg-white/15 scale-[1.02]"
@@ -63,14 +63,21 @@ const QuestionScreen = ({ question, index, total, onAnswer }: QuestionScreenProp
 
   return (
     <div className="flex flex-col items-center min-h-screen px-6 py-10">
-      <p className="text-sm text-white/40 mb-6">💸 내 소비 캐릭터는?</p>
+      <p className="text-sm text-white/60 mb-6">💸 내 소비 캐릭터는?</p>
 
-      <div className="w-full max-w-sm mb-8">
+      <div
+        className="w-full max-w-sm mb-8"
+        role="progressbar"
+        aria-valuenow={index + 1}
+        aria-valuemin={1}
+        aria-valuemax={total}
+        aria-label={`${total}문항 중 ${index + 1}번째`}
+      >
         <div className="flex gap-1.5 w-full">
           {Array.from({ length: total }, (_, i) => (
             <div
               key={`step-${i}`}
-              className={`h-1 flex-1 rounded-full transition-all duration-300 ${
+              className={`h-1 flex-1 rounded-full motion-safe:transition-all motion-safe:duration-300 ${
                 i <= index ? "bg-white/80" : "bg-white/15"
               }`}
             />

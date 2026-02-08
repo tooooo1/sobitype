@@ -26,14 +26,6 @@ export const deriveResult = (answers: string[]): { mainCode: MainCode; subCode: 
   return { mainCode, subCode };
 };
 
-export const getRefFromURL = (): string | null => {
-  if (typeof window === "undefined") {
-    return null;
-  }
-
-  return new URLSearchParams(window.location.search).get("ref");
-};
-
 export const parseRefCode = (ref: string): MainCode | null => {
   const code = ref.slice(0, 3);
   if (!isMainCode(code)) {

@@ -6,24 +6,22 @@ import QuestionScreen from "@/components/question-screen";
 import RefPreview from "@/components/ref-preview";
 import ResultScreen from "@/components/result-screen";
 import { CHARACTERS, QUESTIONS } from "@/lib/characters";
-import { deriveResult, getRandomTag, getRefFromURL, parseRefCode, trackEvent } from "@/lib/utils";
-import type { AppState } from "@/types";
+import { deriveResult, getRandomTag, trackEvent } from "@/lib/utils";
+import type { AppState, MainCode } from "@/types";
 
-const SpendingTest = () => {
-  const [state, setState] = useState<AppState>({ phase: "init" });
+const SpendingTest = ({ refCode }: { refCode: MainCode | null }) => {
+  const [state, setState] = useState<AppState>(() => {
+    if (refCode) {
+      return { phase: "ref-preview", refCode };
+    }
+    return { phase: "question", qi: 0, answers: [], refCode: null };
+  });
 
   useEffect(() => {
-    const ref = getRefFromURL();
-    if (ref) {
-      const refCode = parseRefCode(ref);
-      if (refCode) {
-        trackEvent("ref_landing", { referrer_code: refCode });
-        setState({ phase: "ref-preview", refCode });
-        return;
-      }
+    if (refCode) {
+      trackEvent("ref_landing", { referrer_code: refCode });
     }
-    setState({ phase: "question", qi: 0, answers: [], refCode: null });
-  }, []);
+  }, [refCode]);
 
   const handleRefStart = () => {
     if (state.phase !== "ref-preview") {

@@ -62,7 +62,6 @@ type ResultData = {
 };
 
 export type AppState =
-  | { phase: "init" }
   | { phase: "ref-preview"; refCode: MainCode }
   | { phase: "question"; qi: number; answers: string[]; refCode: MainCode | null }
   | ({ phase: "loading" } & ResultData)
