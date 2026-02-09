@@ -46,24 +46,26 @@ const QuestionScreen = ({ question, index, total, onAnswer }: QuestionScreenProp
         key={choice}
         onClick={() => handleSelect(choice)}
         disabled={selected !== null}
-        className={`w-full p-6 rounded-small border-2 text-left motion-safe:transition-all motion-safe:duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60
+        className={`w-full p-7 rounded-xxlarge text-left motion-safe:transition-all motion-safe:duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60
           ${
             isSelected
-              ? "border-white bg-white/15 scale-[1.02]"
+              ? "bg-white/15 scale-[1.02] ring-2 ring-white/60"
               : isOther
-                ? "border-white/5 bg-white/[0.02] opacity-30 scale-[0.97]"
-                : "border-white/10 bg-white/5 hover:border-white/40 hover:bg-white/10"
+                ? "bg-white/[0.03] opacity-30 scale-[0.97]"
+                : "bg-white/[0.07] hover:bg-white/12"
           }`}
       >
         <div className="text-4xl mb-3">{option.emoji}</div>
-        <div className="text-base font-medium text-white/90 whitespace-pre-line">{option.text}</div>
+        <div className="text-base font-semibold text-white/90 whitespace-pre-line">
+          {option.text}
+        </div>
       </button>
     );
   };
 
   return (
-    <div className="flex flex-col items-center min-h-screen px-6 py-10">
-      <p className="text-sm text-white/60 mb-6">💸 내 소비 캐릭터는?</p>
+    <div className="flex flex-col items-center min-h-screen px-6 py-12">
+      <p className="text-sm text-white/50 mb-6">💸 내 소비 캐릭터는?</p>
 
       <div
         className="w-full max-w-sm mb-8"
@@ -77,25 +79,27 @@ const QuestionScreen = ({ question, index, total, onAnswer }: QuestionScreenProp
           {Array.from({ length: total }, (_, i) => (
             <div
               key={`step-${i}`}
-              className={`h-1.5 flex-1 rounded-full motion-safe:transition-all motion-safe:duration-300 ${
-                i <= index ? "bg-white/80" : "bg-white/15"
+              className={`h-2 flex-1 rounded-pill motion-safe:transition-all motion-safe:duration-300 ${
+                i <= index ? "bg-white/70" : "bg-white/10"
               }`}
             />
           ))}
         </div>
       </div>
 
-      <h2 className="text-2xl font-bold text-center mb-8 whitespace-pre-line leading-relaxed">
+      <h2 className="text-2xl font-bold text-center mb-10 whitespace-pre-line leading-relaxed">
         {question.text}
       </h2>
 
-      <div className="flex flex-col gap-4 w-full max-w-sm">
+      <div className="flex flex-col gap-3.5 w-full max-w-sm">
         {renderCard("A")}
         {renderCard("B")}
       </div>
 
       {flashText && (
-        <p className="mt-6 text-base font-semibold text-white/80 animate-flash">{flashText}</p>
+        <p className="mt-8 px-5 py-2.5 rounded-pill bg-white/10 text-sm font-semibold text-white/80 animate-flash">
+          {flashText}
+        </p>
       )}
     </div>
   );

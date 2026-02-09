@@ -24,12 +24,14 @@ const LoadingScreen = () => {
       aria-live="polite"
       aria-label="결과 분석 중"
     >
-      <div className="relative w-16 h-16 mb-8">
-        <div className="absolute inset-0 rounded-full border-4 border-white/10" />
-        <div className="absolute inset-0 rounded-full border-4 border-t-white/80 border-r-transparent border-b-transparent border-l-transparent motion-safe:animate-spin" />
+      <div className="relative w-14 h-14 mb-8">
+        <div className="absolute inset-0 rounded-full border-[3px] border-white/10" />
+        <div className="absolute inset-0 rounded-full border-[3px] border-t-white/70 border-r-transparent border-b-transparent border-l-transparent motion-safe:animate-spin" />
       </div>
 
-      <p className="text-white/80 text-sm motion-safe:animate-pulse">{displayText}</p>
+      <p className="px-5 py-2 rounded-pill bg-white/[0.07] text-white/70 text-sm motion-safe:animate-pulse">
+        {displayText}
+      </p>
     </output>
   );
 };
