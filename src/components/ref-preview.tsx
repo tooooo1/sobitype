@@ -28,10 +28,10 @@ const RefPreview = ({ refCharacter, onStart }: RefPreviewProps) => {
       <button
         type="button"
         onClick={onStart}
-        className="px-8 py-4 rounded-2xl text-white font-semibold text-lg
+        className="px-8 py-4 rounded-small text-white font-semibold text-lg
                    transition-transform active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60"
         style={{
-          background: `linear-gradient(135deg, ${refCharacter.color}, ${refCharacter.color}99)`,
+          backgroundColor: refCharacter.color,
         }}
       >
         나도 해보고 비교하기 👀

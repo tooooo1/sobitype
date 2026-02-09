@@ -87,14 +87,7 @@ const SpendingTest = ({ refCode }: { refCode: MainCode | null }) => {
     return null;
   }
 
-  return (
-    <div
-      className="min-h-screen text-white"
-      style={{ background: "linear-gradient(to bottom, #0f0f1a, #1a1025, #0f0f1a)" }}
-    >
-      {content}
-    </div>
-  );
+  return <div className="min-h-screen text-white bg-background">{content}</div>;
 };
 
 export default SpendingTest;

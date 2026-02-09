@@ -46,13 +46,13 @@ const QuestionScreen = ({ question, index, total, onAnswer }: QuestionScreenProp
         key={choice}
         onClick={() => handleSelect(choice)}
         disabled={selected !== null}
-        className={`w-full p-5 rounded-2xl border-2 text-left motion-safe:transition-all motion-safe:duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60
+        className={`w-full p-5 rounded-small border-2 text-left motion-safe:transition-all motion-safe:duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60
           ${
             isSelected
-              ? "border-white/60 bg-white/15 scale-[1.02]"
+              ? "border-white bg-white/15 scale-[1.02]"
               : isOther
-                ? "border-white/10 bg-white/5 opacity-40 scale-[0.98]"
-                : "border-white/10 bg-white/5 hover:border-white/30 hover:bg-white/10"
+                ? "border-white/5 bg-white/[0.02] opacity-30 scale-[0.97]"
+                : "border-white/10 bg-white/5 hover:border-white/40 hover:bg-white/10"
           }`}
       >
         <div className="text-3xl mb-2">{option.emoji}</div>

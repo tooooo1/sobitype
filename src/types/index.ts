@@ -31,7 +31,7 @@ export interface Character {
   readonly title: string;
   readonly description: string;
   readonly color: string;
-  readonly gradient: string;
+  readonly cardBg: string;
   readonly rarity: number;
   readonly badge: string;
   readonly badgeColor: string;
