@@ -63,7 +63,7 @@ const QuestionScreen = ({ question, index, total, onAnswer }: QuestionScreenProp
   };
 
   return (
-    <div className="flex flex-col items-center min-h-screen px-5 pt-16">
+    <div className="flex flex-col items-center min-h-screen px-6 pt-14">
       <div
         className="w-full max-w-sm mb-10"
         role="progressbar"

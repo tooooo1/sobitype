@@ -98,48 +98,43 @@ const ResultScreen = ({ mainCode, subCode, randomTag, refCode }: ResultScreenPro
   };
 
   return (
-    <main className="flex flex-col items-center min-h-screen px-6 pt-14 pb-12">
-      {/* HERO */}
-      <div className="text-7xl mb-4" role="img" aria-label={character.name}>
+    <main className="flex flex-col items-center min-h-screen px-6 pt-12 pb-10">
+      {/* HERO — 이모지 + 이름 + 타이틀 */}
+      <div className="text-7xl mb-3" role="img" aria-label={character.name}>
         {character.emoji}
       </div>
-
-      <h1 className="text-[2rem] font-bold mb-1.5" style={{ color: character.color }}>
+      <h1 className="text-[2rem] font-bold mb-1" style={{ color: character.color }}>
         {character.name}
       </h1>
+      <p className="text-white/45 mb-4">{character.title}</p>
 
-      <p className="text-white/45 mb-8">{character.title}</p>
-
-      {/* TAGS */}
-      <div className="flex gap-2 mb-10">
-        <span className="px-3.5 py-1.5 rounded-pill bg-white/8 text-sm text-white/50">
-          #{subTag}
-        </span>
-        <span className="px-3.5 py-1.5 rounded-pill bg-white/8 text-sm text-white/50">
+      <div className="flex gap-2 mb-6">
+        <span className="px-3 py-1 rounded-pill bg-white/8 text-sm text-white/50">#{subTag}</span>
+        <span className="px-3 py-1 rounded-pill bg-white/8 text-sm text-white/50">
           #{randomTag}
         </span>
       </div>
 
-      {/* STATS */}
-      <div className="w-full max-w-sm flex flex-col gap-4 mb-10">
-        {statBar("계획력", character.stats.plan)}
-        {statBar("투자성향", character.stats.invest)}
-        {statBar("YOLO", character.stats.yolo)}
+      {/* STATS + ONE-LINER — 하나의 카드로 묶기 */}
+      <div className="w-full max-w-sm rounded-xlarge bg-white/[0.06] px-6 py-5 mb-6">
+        <div className="flex flex-col gap-3 mb-4">
+          {statBar("계획력", character.stats.plan)}
+          {statBar("투자성향", character.stats.invest)}
+          {statBar("YOLO", character.stats.yolo)}
+        </div>
+        <p className="text-white/45 text-sm text-center leading-relaxed pt-3 border-t border-white/8">
+          &ldquo;{character.oneLiner}&rdquo;
+        </p>
       </div>
 
-      {/* ONE-LINER */}
-      <p className="text-white/50 text-center leading-relaxed mb-10 max-w-sm">
-        &ldquo;{character.oneLiner}&rdquo;
-      </p>
-
       {/* RARITY */}
-      <div className="flex flex-col items-center mb-14">
-        <p className="text-sm text-white/35 mb-2">전국에서</p>
-        <p className="text-[2.5rem] font-bold tabular-nums" style={{ color: character.color }}>
+      <div className="flex items-center gap-3 mb-8">
+        <span className="text-sm text-white/30">전국에서</span>
+        <span className="text-2xl font-bold tabular-nums" style={{ color: character.color }}>
           {character.rarity}%
-        </p>
+        </span>
         <span
-          className="mt-2 px-3 py-1 rounded-pill text-xs font-bold"
+          className="px-2.5 py-0.5 rounded-pill text-xs font-bold"
           style={{ backgroundColor: character.badgeColor, color: "#1a1a1a" }}
         >
           {character.badge}
@@ -147,21 +142,20 @@ const ResultScreen = ({ mainCode, subCode, randomTag, refCode }: ResultScreenPro
       </div>
 
       {/* SHARE */}
-      <div className="flex flex-col gap-3 w-full max-w-sm mb-10">
+      <div className="flex flex-col gap-2.5 w-full max-w-sm mb-6">
         <button
           type="button"
           onClick={handleKakao}
-          className="w-full py-4 rounded-xlarge font-semibold transition-transform active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400"
+          className="w-full py-3.5 rounded-xlarge font-semibold transition-transform active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400"
           style={{ backgroundColor: "#FEE500", color: "#191919" }}
         >
           카카오톡 공유
         </button>
-
         <button
           type="button"
           onClick={handleCopyLink}
           aria-live="polite"
-          className="w-full py-4 rounded-xlarge bg-white/8 text-white/70 font-semibold transition-transform active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60"
+          className="w-full py-3.5 rounded-xlarge bg-white/8 text-white/60 font-semibold transition-transform active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60"
         >
           {copied ? "복사 완료!" : "링크 복사"}
         </button>
@@ -169,34 +163,32 @@ const ResultScreen = ({ mainCode, subCode, randomTag, refCode }: ResultScreenPro
 
       {/* COMPAT — referral */}
       {refCharacter && refCode && showCompat && (
-        <section className="w-full max-w-sm mb-10" aria-label="궁합 결과">
-          <div className="w-12 mx-auto border-t border-white/10 mb-10" />
-
-          <h2 className="text-center text-xl font-bold mb-8">너와 친구의 궁합</h2>
-
-          <div className="flex items-center justify-center gap-12 mb-6">
-            <div className="flex flex-col items-center gap-2">
-              <span className="text-5xl" role="img" aria-label={character.name}>
+        <section
+          className="w-full max-w-sm rounded-xlarge bg-white/[0.06] px-6 py-5 mb-6"
+          aria-label="궁합 결과"
+        >
+          <h2 className="text-center font-bold mb-5">너와 친구의 궁합</h2>
+          <div className="flex items-center justify-center gap-10 mb-4">
+            <div className="flex flex-col items-center gap-1.5">
+              <span className="text-4xl" role="img" aria-label={character.name}>
                 {character.emoji}
               </span>
-              <span className="text-sm text-white/40">나</span>
+              <span className="text-xs text-white/40">나</span>
             </div>
-            <div className="flex flex-col items-center gap-2">
-              <span className="text-5xl" role="img" aria-label={refCharacter.name}>
+            <div className="flex flex-col items-center gap-1.5">
+              <span className="text-4xl" role="img" aria-label={refCharacter.name}>
                 {refCharacter.emoji}
               </span>
-              <span className="text-sm text-white/40">친구</span>
+              <span className="text-xs text-white/40">친구</span>
             </div>
           </div>
-
-          <p className="text-white/50 text-center leading-relaxed mb-8">
+          <p className="text-white/50 text-sm text-center leading-relaxed mb-4">
             {getCompatComment(mainCode, refCode)}
           </p>
-
           <button
             type="button"
             onClick={handleCompatShare}
-            className="w-full py-4 rounded-xlarge bg-white/8 text-white/50 font-semibold transition-transform active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60"
+            className="w-full py-3 rounded-large bg-white/8 text-sm text-white/50 font-semibold transition-transform active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60"
           >
             궁합 결과 공유하기
           </button>
@@ -205,34 +197,34 @@ const ResultScreen = ({ mainCode, subCode, randomTag, refCode }: ResultScreenPro
 
       {/* COMPAT — static */}
       {!refCharacter && (
-        <section className="w-full max-w-sm mb-10" aria-label="궁합 정보">
-          <div className="w-12 mx-auto border-t border-white/10 mb-10" />
-
-          <div className="flex flex-col gap-6 mb-8">
-            <div className="flex items-center gap-4">
-              <span className="text-4xl" role="img" aria-label={bestMatch.name}>
+        <section
+          className="w-full max-w-sm rounded-xlarge bg-white/[0.06] px-6 py-5 mb-6"
+          aria-label="궁합 정보"
+        >
+          <div className="flex flex-col gap-4 mb-4">
+            <div className="flex items-center gap-3">
+              <span className="text-3xl" role="img" aria-label={bestMatch.name}>
                 {bestMatch.emoji}
               </span>
               <div>
-                <p className="text-sm text-white/35">찰떡궁합</p>
-                <p className="font-semibold text-white/80">{bestMatch.name}</p>
+                <p className="text-xs text-white/35">찰떡궁합</p>
+                <p className="text-sm font-semibold text-white/80">{bestMatch.name}</p>
               </div>
             </div>
-            <div className="flex items-center gap-4">
-              <span className="text-4xl" role="img" aria-label={worstMatch.name}>
+            <div className="flex items-center gap-3">
+              <span className="text-3xl" role="img" aria-label={worstMatch.name}>
                 {worstMatch.emoji}
               </span>
               <div>
-                <p className="text-sm text-white/35">상극</p>
-                <p className="font-semibold text-white/80">{worstMatch.name}</p>
+                <p className="text-xs text-white/35">상극</p>
+                <p className="text-sm font-semibold text-white/80">{worstMatch.name}</p>
               </div>
             </div>
           </div>
-
           <button
             type="button"
             onClick={handleCopyLink}
-            className="w-full py-4 rounded-xlarge bg-white/8 text-white/50 font-semibold transition-transform active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60"
+            className="w-full py-3 rounded-large bg-white/8 text-sm text-white/50 font-semibold transition-transform active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60"
           >
             친구한테 보내서 궁합 확인하기
           </button>
