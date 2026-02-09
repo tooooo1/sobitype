@@ -46,7 +46,7 @@ const QuestionScreen = ({ question, index, total, onAnswer }: QuestionScreenProp
         key={choice}
         onClick={() => handleSelect(choice)}
         disabled={selected !== null}
-        className={`w-full p-5 rounded-small border-2 text-left motion-safe:transition-all motion-safe:duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60
+        className={`w-full p-6 rounded-small border-2 text-left motion-safe:transition-all motion-safe:duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60
           ${
             isSelected
               ? "border-white bg-white/15 scale-[1.02]"
@@ -55,8 +55,8 @@ const QuestionScreen = ({ question, index, total, onAnswer }: QuestionScreenProp
                 : "border-white/10 bg-white/5 hover:border-white/40 hover:bg-white/10"
           }`}
       >
-        <div className="text-3xl mb-2">{option.emoji}</div>
-        <div className="text-sm text-white/90 whitespace-pre-line">{option.text}</div>
+        <div className="text-4xl mb-3">{option.emoji}</div>
+        <div className="text-base font-medium text-white/90 whitespace-pre-line">{option.text}</div>
       </button>
     );
   };
@@ -77,7 +77,7 @@ const QuestionScreen = ({ question, index, total, onAnswer }: QuestionScreenProp
           {Array.from({ length: total }, (_, i) => (
             <div
               key={`step-${i}`}
-              className={`h-1 flex-1 rounded-full motion-safe:transition-all motion-safe:duration-300 ${
+              className={`h-1.5 flex-1 rounded-full motion-safe:transition-all motion-safe:duration-300 ${
                 i <= index ? "bg-white/80" : "bg-white/15"
               }`}
             />
@@ -85,7 +85,7 @@ const QuestionScreen = ({ question, index, total, onAnswer }: QuestionScreenProp
         </div>
       </div>
 
-      <h2 className="text-xl font-bold text-center mb-8 whitespace-pre-line leading-relaxed">
+      <h2 className="text-2xl font-bold text-center mb-8 whitespace-pre-line leading-relaxed">
         {question.text}
       </h2>
 
@@ -94,7 +94,9 @@ const QuestionScreen = ({ question, index, total, onAnswer }: QuestionScreenProp
         {renderCard("B")}
       </div>
 
-      {flashText && <p className="mt-6 text-sm text-white/70 animate-flash">{flashText}</p>}
+      {flashText && (
+        <p className="mt-6 text-base font-semibold text-white/80 animate-flash">{flashText}</p>
+      )}
     </div>
   );
 };
