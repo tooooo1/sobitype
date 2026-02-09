@@ -14,7 +14,6 @@ interface ResultScreenProps {
 
 const ResultScreen = ({ mainCode, subCode, randomTag, refCode }: ResultScreenProps) => {
   const [copied, setCopied] = useState(false);
-  const [onelineCopied, setOnelineCopied] = useState(false);
   const [showCompat, setShowCompat] = useState(false);
 
   const character = CHARACTERS[mainCode];
@@ -49,15 +48,6 @@ const ResultScreen = ({ mainCode, subCode, randomTag, refCode }: ResultScreenPro
     } catch {
       /* noop */
     }
-  };
-
-  const handleCopyOneliner = () => {
-    const text = `나의 소비 캐릭터는 "${character.name}" ${character.emoji}\n💬 ${character.oneLiner}\n\n나도 테스트하기 → ${buildShareURL(mainCode, subCode, "oneline")}`;
-    copyToClipboard(text, () => {
-      setOnelineCopied(true);
-      trackEvent("share_oneline", { channel: "oneline", full_code: fullCode });
-      setTimeout(() => setOnelineCopied(false), 2000);
-    });
   };
 
   const handleCopyLink = () => {
@@ -168,18 +158,9 @@ const ResultScreen = ({ mainCode, subCode, randomTag, refCode }: ResultScreenPro
 
         <button
           type="button"
-          onClick={handleCopyOneliner}
-          aria-live="polite"
-          className="w-full py-4 rounded-xlarge bg-white/[0.07] text-white font-semibold transition-transform active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60"
-        >
-          {onelineCopied ? "복사 완료!" : "📋 한 줄 복사"}
-        </button>
-
-        <button
-          type="button"
           onClick={handleCopyLink}
           aria-live="polite"
-          className="w-full py-4 rounded-xlarge bg-white/[0.07] text-white font-semibold transition-transform active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60"
+          className="w-full py-4 rounded-xlarge bg-white/10 text-white font-semibold transition-transform active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60"
         >
           {copied ? "복사 완료!" : "🔗 링크 복사"}
         </button>
@@ -187,10 +168,7 @@ const ResultScreen = ({ mainCode, subCode, randomTag, refCode }: ResultScreenPro
 
       {/* COMPAT — referral */}
       {refCharacter && refCode && showCompat && (
-        <section
-          className="w-full max-w-sm rounded-xlarge bg-white/[0.07] p-7"
-          aria-label="궁합 결과"
-        >
+        <section className="w-full max-w-sm rounded-xlarge bg-white/10 p-7" aria-label="궁합 결과">
           <h2 className="text-center text-xl font-bold mb-6">너와 친구의 궁합</h2>
 
           <div className="flex items-center justify-center gap-10 mb-5">
@@ -224,10 +202,7 @@ const ResultScreen = ({ mainCode, subCode, randomTag, refCode }: ResultScreenPro
 
       {/* COMPAT — static */}
       {!refCharacter && (
-        <section
-          className="w-full max-w-sm rounded-xlarge bg-white/[0.07] p-7"
-          aria-label="궁합 정보"
-        >
+        <section className="w-full max-w-sm rounded-xlarge bg-white/10 p-7" aria-label="궁합 정보">
           <div className="flex flex-col gap-5 mb-6">
             <div className="flex items-center gap-4">
               <span className="text-4xl" role="img" aria-label={bestMatch.name}>

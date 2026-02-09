@@ -52,7 +52,7 @@ const QuestionScreen = ({ question, index, total, onAnswer }: QuestionScreenProp
               ? "bg-white/15 scale-[1.02] ring-2 ring-white/60"
               : isOther
                 ? "bg-white/[0.03] opacity-30 scale-[0.97]"
-                : "bg-white/[0.07] hover:bg-white/12"
+                : "bg-white/10 hover:bg-white/12"
           }`}
       >
         <span className="text-lg font-semibold text-white/90">
@@ -63,7 +63,7 @@ const QuestionScreen = ({ question, index, total, onAnswer }: QuestionScreenProp
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen px-5">
+    <div className="flex flex-col items-center min-h-screen px-5 pt-16">
       <div
         className="w-full max-w-sm mb-10"
         role="progressbar"

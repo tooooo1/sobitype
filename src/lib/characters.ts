@@ -43,7 +43,7 @@ export const CHARACTERS: Record<MainCode, Character> = {
     description:
       "예산 앱 깔아놓고 명품 사는 타입. 무계획하게 쓰는 게 아니라, 계획적으로 큰 걸 지른다. 주변에선 부자인 줄 알지만, 엑셀에는 빨간 셀이 좀 있다.",
     color: "#a362ff",
-    cardBg: "#380189",
+    cardBg: "#4401a5",
     rarity: 8.3,
     badge: "💎 RARE",
     badgeColor: "#c6a2ff",
@@ -58,7 +58,7 @@ export const CHARACTERS: Record<MainCode, Character> = {
     description:
       "자동이체 세팅해놓고 복리를 믿는 타입. 30대에 벌써 노후 계획이 있다. 친구들은 재미없다고 하지만, 10년 뒤에 웃는 건 너야.",
     color: "#49b0ff",
-    cardBg: "#014a82",
+    cardBg: "#01599c",
     rarity: 5.1,
     badge: "💎 RARE",
     badgeColor: "#49b0ff",
@@ -73,7 +73,7 @@ export const CHARACTERS: Record<MainCode, Character> = {
     description:
       '쿠폰 써서 호텔 가고, 마일리지로 비행기 타는 타입. 적게 쓰면서 많이 누리는 기술의 달인. "가성비 끝판왕"이라는 칭호가 어울린다.',
     color: "#5ed0a4",
-    cardBg: "#235342",
+    cardBg: "#27614b",
     rarity: 14.7,
     badge: "⭐ COMMON",
     badgeColor: "#b0f7cd",
@@ -88,7 +88,7 @@ export const CHARACTERS: Record<MainCode, Character> = {
     description:
       "가계부 앱 3개 동시 사용. 구독 서비스 하나 해지할 때도 손익 계산한다. 주변에선 짠돌이라 하지만, 너만큼 마음이 편한 사람도 없다.",
     color: "#90d5ff",
-    cardBg: "#01599c",
+    cardBg: "#006ec3",
     rarity: 11.2,
     badge: "⭐ COMMON",
     badgeColor: "#90d5ff",
@@ -103,7 +103,7 @@ export const CHARACTERS: Record<MainCode, Character> = {
     description:
       '주식 알림 켜놓고 출근하고, 코인 차트 보면서 잠든다. 수익도 크지만 손실도 큰 롤러코스터 인생. "인생은 한 방"이 좌우명.',
     color: "#ff7472",
-    cardBg: "#750101",
+    cardBg: "#8f0000",
     rarity: 18.5,
     badge: "⭐ COMMON",
     badgeColor: "#ffd4d4",
@@ -118,7 +118,7 @@ export const CHARACTERS: Record<MainCode, Character> = {
     description:
       "평소엔 대충 사는 것 같은데, 투자 얘기 나오면 눈이 반짝. 겉으론 자유로워 보이지만 통장은 의외로 체계적이다.",
     color: "#ff9b4f",
-    cardBg: "#7d3601",
+    cardBg: "#9f4501",
     rarity: 4.2,
     badge: "👑 EPIC",
     badgeColor: "#ff9b4f",
@@ -133,7 +133,7 @@ export const CHARACTERS: Record<MainCode, Character> = {
     description:
       '통장 잔고? 안 본다. 카드값? 다음 달의 나에게 맡긴다. "지금 이 순간"을 사는 철학자. 걱정은 내일의 내가 하겠지.',
     color: "#ff7fca",
-    cardBg: "#8e0153",
+    cardBg: "#ad0065",
     rarity: 24.8,
     badge: "⭐ COMMON",
     badgeColor: "#ffb7e1",
@@ -148,7 +148,7 @@ export const CHARACTERS: Record<MainCode, Character> = {
     description:
       '적금 하나 들어놓고 잊고 사는 타입. 투자는 무섭고, 큰 소비도 안 한다. "안전이 제일"이라는 마인드인데, 물가는 기다려주지 않는다는 게 함정.',
     color: "#7be5d9",
-    cardBg: "#295c5d",
+    cardBg: "#2f716f",
     rarity: 13.2,
     badge: "⭐ COMMON",
     badgeColor: "#a5f1e7",
