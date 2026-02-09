@@ -13,17 +13,15 @@ const RefPreview = ({ refCharacter, onStart }: RefPreviewProps) => {
       className="flex flex-col items-center justify-center min-h-screen px-6 text-center"
       aria-label="친구의 소비 캐릭터 미리보기"
     >
-      <p className="text-sm text-white/50 mb-4">친구의 소비 캐릭터</p>
-
-      <div className="text-6xl mb-4" role="img" aria-label={refCharacter.name}>
+      <div className="text-6xl mb-5" role="img" aria-label={refCharacter.name}>
         {refCharacter.emoji}
       </div>
 
-      <h1 className="text-2xl font-bold mb-1" style={{ color: refCharacter.color }}>
+      <h1 className="text-[1.75rem] font-bold mb-1" style={{ color: refCharacter.color }}>
         {refCharacter.name}
       </h1>
 
-      <p className="text-white/50 text-sm mb-12">{refCharacter.title}</p>
+      <p className="text-white/50 mb-12">{refCharacter.title}</p>
 
       <button
         type="button"
@@ -34,7 +32,7 @@ const RefPreview = ({ refCharacter, onStart }: RefPreviewProps) => {
           backgroundColor: refCharacter.color,
         }}
       >
-        나도 해보고 비교하기 👀
+        나도 테스트하기
       </button>
     </main>
   );

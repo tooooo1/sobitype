@@ -46,7 +46,7 @@ const QuestionScreen = ({ question, index, total, onAnswer }: QuestionScreenProp
         key={choice}
         onClick={() => handleSelect(choice)}
         disabled={selected !== null}
-        className={`w-full p-7 rounded-xxlarge text-left motion-safe:transition-all motion-safe:duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60
+        className={`w-full px-6 py-5 rounded-xlarge text-left motion-safe:transition-all motion-safe:duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60
           ${
             isSelected
               ? "bg-white/15 scale-[1.02] ring-2 ring-white/60"
@@ -55,43 +55,40 @@ const QuestionScreen = ({ question, index, total, onAnswer }: QuestionScreenProp
                 : "bg-white/[0.07] hover:bg-white/12"
           }`}
       >
-        <div className="text-4xl mb-3">{option.emoji}</div>
-        <div className="text-base font-semibold text-white/90 whitespace-pre-line">
-          {option.text}
-        </div>
+        <span className="text-lg font-semibold text-white/90">
+          {option.emoji} {option.text}
+        </span>
       </button>
     );
   };
 
   return (
-    <div className="flex flex-col items-center min-h-screen px-6 py-12">
-      <p className="text-sm text-white/50 mb-6">💸 내 소비 캐릭터는?</p>
-
+    <div className="flex flex-col items-center justify-center min-h-screen px-5">
       <div
-        className="w-full max-w-sm mb-8"
+        className="w-full max-w-sm mb-10"
         role="progressbar"
         aria-valuenow={index + 1}
         aria-valuemin={1}
         aria-valuemax={total}
         aria-label={`${total}문항 중 ${index + 1}번째`}
       >
-        <div className="flex gap-1.5 w-full">
+        <div className="flex gap-2 w-full">
           {Array.from({ length: total }, (_, i) => (
             <div
               key={`step-${i}`}
-              className={`h-2 flex-1 rounded-pill motion-safe:transition-all motion-safe:duration-300 ${
-                i <= index ? "bg-white/70" : "bg-white/10"
+              className={`h-1.5 flex-1 rounded-pill motion-safe:transition-all motion-safe:duration-300 ${
+                i <= index ? "bg-white/60" : "bg-white/10"
               }`}
             />
           ))}
         </div>
       </div>
 
-      <h2 className="text-2xl font-bold text-center mb-10 whitespace-pre-line leading-relaxed">
+      <h2 className="text-[1.75rem] font-bold text-center mb-12 whitespace-pre-line leading-snug">
         {question.text}
       </h2>
 
-      <div className="flex flex-col gap-3.5 w-full max-w-sm">
+      <div className="flex flex-col gap-3 w-full max-w-sm">
         {renderCard("A")}
         {renderCard("B")}
       </div>
