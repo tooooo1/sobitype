@@ -131,27 +131,7 @@ const ResultScreen = ({ mainCode, subCode, randomTag, refCode }: ResultScreenPro
         </span>
       </div>
 
-      {/* CTA — 공유가 목적 */}
-      <div className="flex flex-col gap-2.5 w-full max-w-sm mb-8">
-        <button
-          type="button"
-          onClick={handleKakao}
-          className="w-full py-4 rounded-xlarge font-semibold transition-transform active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400"
-          style={{ backgroundColor: "#FEE500", color: "#191919" }}
-        >
-          카카오톡으로 자랑하기
-        </button>
-        <button
-          type="button"
-          onClick={handleCopyLink}
-          aria-live="polite"
-          className="w-full py-3.5 rounded-xlarge bg-white/8 text-white/50 font-semibold transition-transform active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60"
-        >
-          {copied ? "복사 완료!" : "링크 복사"}
-        </button>
-      </div>
-
-      {/* STATS — 부록 */}
+      {/* STATS */}
       <div className="w-full max-w-sm flex flex-col gap-3 mb-8">
         {statBar("계획력", character.stats.plan)}
         {statBar("투자성향", character.stats.invest)}
@@ -175,13 +155,6 @@ const ResultScreen = ({ mainCode, subCode, randomTag, refCode }: ResultScreenPro
           <p className="text-white/45 text-sm text-center leading-relaxed mb-4">
             {getCompatComment(mainCode, refCode)}
           </p>
-          <button
-            type="button"
-            onClick={handleCompatShare}
-            className="w-full py-3 rounded-xlarge bg-white/8 text-sm text-white/40 font-semibold transition-transform active:scale-[0.97]"
-          >
-            궁합 결과 공유하기
-          </button>
         </section>
       )}
 
@@ -189,7 +162,7 @@ const ResultScreen = ({ mainCode, subCode, randomTag, refCode }: ResultScreenPro
       {!refCharacter && (
         <section className="w-full max-w-sm mb-6" aria-label="궁합 정보">
           <div className="w-10 mx-auto border-t border-white/8 mb-6" />
-          <div className="flex justify-center gap-8 mb-4">
+          <div className="flex justify-center gap-8">
             <div className="flex items-center gap-2">
               <span className="text-2xl">{bestMatch.emoji}</span>
               <div>
@@ -205,15 +178,37 @@ const ResultScreen = ({ mainCode, subCode, randomTag, refCode }: ResultScreenPro
               </div>
             </div>
           </div>
-          <button
-            type="button"
-            onClick={handleCopyLink}
-            className="w-full py-3 rounded-xlarge bg-white/8 text-sm text-white/40 font-semibold transition-transform active:scale-[0.97]"
-          >
-            친구한테 보내서 궁합 확인하기
-          </button>
         </section>
       )}
+
+      {/* CTA — 하단 버튼 모음 */}
+      <div className="flex flex-col gap-2.5 w-full max-w-sm mb-6">
+        <button
+          type="button"
+          onClick={handleKakao}
+          className="w-full py-4 rounded-xlarge font-semibold transition-transform active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400"
+          style={{ backgroundColor: "#FEE500", color: "#191919" }}
+        >
+          카카오톡으로 자랑하기
+        </button>
+        <button
+          type="button"
+          onClick={handleCopyLink}
+          aria-live="polite"
+          className="w-full py-3.5 rounded-xlarge bg-white/8 text-white/50 font-semibold transition-transform active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60"
+        >
+          {copied ? "복사 완료!" : "링크 복사"}
+        </button>
+        {refCharacter && refCode && showCompat && (
+          <button
+            type="button"
+            onClick={handleCompatShare}
+            className="w-full py-3 rounded-xlarge bg-white/8 text-sm text-white/40 font-semibold transition-transform active:scale-[0.97]"
+          >
+            궁합 결과 공유하기
+          </button>
+        )}
+      </div>
 
       <button
         type="button"
