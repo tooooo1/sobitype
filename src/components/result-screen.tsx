@@ -80,8 +80,8 @@ const ResultScreen = ({ mainCode, subCode, randomTag, refCode }: ResultScreenPro
   const statBar = (label: string, value: number) => {
     return (
       <div className="flex items-center gap-3">
-        <span className="w-16 text-sm text-white/50">{label}</span>
-        <div className="flex-1 h-2 rounded-pill bg-white/10 overflow-hidden">
+        <span className="w-16 text-sm text-white/40">{label}</span>
+        <div className="flex-1 h-1.5 rounded-pill bg-white/8 overflow-hidden">
           <div
             className="h-full rounded-pill motion-safe:transition-all motion-safe:duration-1000 ease-out"
             style={{ width: `${value}%`, backgroundColor: character.color }}
@@ -98,55 +98,56 @@ const ResultScreen = ({ mainCode, subCode, randomTag, refCode }: ResultScreenPro
   };
 
   return (
-    <main className="flex flex-col items-center min-h-screen px-5 py-10 gap-4">
-      {/* CHARACTER CARD */}
-      <section
-        className="w-full max-w-sm rounded-xlarge p-7"
-        style={{ backgroundColor: character.cardBg }}
-        aria-label={`${character.name} 캐릭터 카드`}
-      >
-        <div className="flex flex-col items-center text-center mb-6">
-          <div className="text-6xl mb-3" role="img" aria-label={character.name}>
-            {character.emoji}
-          </div>
-          <h1 className="text-[1.75rem] font-bold mb-1" style={{ color: character.color }}>
-            {character.name}
-          </h1>
-          <p className="text-white/50">{character.title}</p>
-        </div>
+    <main className="flex flex-col items-center min-h-screen px-6 pt-14 pb-12">
+      {/* HERO */}
+      <div className="text-7xl mb-4" role="img" aria-label={character.name}>
+        {character.emoji}
+      </div>
 
-        <div className="flex justify-center gap-2 flex-wrap mb-6">
-          <span className="px-3 py-1 rounded-pill bg-white/10 text-sm text-white/60">
-            #{subTag}
-          </span>
-          <span className="px-3 py-1 rounded-pill bg-white/10 text-sm text-white/60">
-            #{randomTag}
-          </span>
-        </div>
+      <h1 className="text-[2rem] font-bold mb-1.5" style={{ color: character.color }}>
+        {character.name}
+      </h1>
 
-        <div className="flex flex-col gap-3 mb-6">
-          {statBar("계획력", character.stats.plan)}
-          {statBar("투자성향", character.stats.invest)}
-          {statBar("YOLO", character.stats.yolo)}
-        </div>
+      <p className="text-white/45 mb-8">{character.title}</p>
 
-        <p className="text-white/70 text-center leading-relaxed mb-6">
-          &ldquo;{character.oneLiner}&rdquo;
+      {/* TAGS */}
+      <div className="flex gap-2 mb-10">
+        <span className="px-3.5 py-1.5 rounded-pill bg-white/8 text-sm text-white/50">
+          #{subTag}
+        </span>
+        <span className="px-3.5 py-1.5 rounded-pill bg-white/8 text-sm text-white/50">
+          #{randomTag}
+        </span>
+      </div>
+
+      {/* STATS */}
+      <div className="w-full max-w-sm flex flex-col gap-4 mb-10">
+        {statBar("계획력", character.stats.plan)}
+        {statBar("투자성향", character.stats.invest)}
+        {statBar("YOLO", character.stats.yolo)}
+      </div>
+
+      {/* ONE-LINER */}
+      <p className="text-white/50 text-center leading-relaxed mb-10 max-w-sm">
+        &ldquo;{character.oneLiner}&rdquo;
+      </p>
+
+      {/* RARITY */}
+      <div className="flex flex-col items-center mb-14">
+        <p className="text-sm text-white/35 mb-2">전국에서</p>
+        <p className="text-[2.5rem] font-bold tabular-nums" style={{ color: character.color }}>
+          {character.rarity}%
         </p>
-
-        <div className="flex items-center justify-between">
-          <span className="text-xs text-white/40">전국 {character.rarity}%</span>
-          <span
-            className="px-2.5 py-1 rounded-pill text-xs font-bold"
-            style={{ backgroundColor: character.badgeColor, color: "#32343a" }}
-          >
-            {character.badge}
-          </span>
-        </div>
-      </section>
+        <span
+          className="mt-2 px-3 py-1 rounded-pill text-xs font-bold"
+          style={{ backgroundColor: character.badgeColor, color: "#1a1a1a" }}
+        >
+          {character.badge}
+        </span>
+      </div>
 
       {/* SHARE */}
-      <div className="flex flex-col gap-2.5 w-full max-w-sm">
+      <div className="flex flex-col gap-3 w-full max-w-sm mb-10">
         <button
           type="button"
           onClick={handleKakao}
@@ -160,40 +161,42 @@ const ResultScreen = ({ mainCode, subCode, randomTag, refCode }: ResultScreenPro
           type="button"
           onClick={handleCopyLink}
           aria-live="polite"
-          className="w-full py-4 rounded-xlarge bg-white/10 text-white font-semibold transition-transform active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60"
+          className="w-full py-4 rounded-xlarge bg-white/8 text-white/70 font-semibold transition-transform active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60"
         >
-          {copied ? "복사 완료!" : "🔗 링크 복사"}
+          {copied ? "복사 완료!" : "링크 복사"}
         </button>
       </div>
 
       {/* COMPAT — referral */}
       {refCharacter && refCode && showCompat && (
-        <section className="w-full max-w-sm rounded-xlarge bg-white/10 p-7" aria-label="궁합 결과">
-          <h2 className="text-center text-xl font-bold mb-6">너와 친구의 궁합</h2>
+        <section className="w-full max-w-sm mb-10" aria-label="궁합 결과">
+          <div className="w-12 mx-auto border-t border-white/10 mb-10" />
 
-          <div className="flex items-center justify-center gap-10 mb-5">
-            <div className="flex flex-col items-center gap-1.5">
+          <h2 className="text-center text-xl font-bold mb-8">너와 친구의 궁합</h2>
+
+          <div className="flex items-center justify-center gap-12 mb-6">
+            <div className="flex flex-col items-center gap-2">
               <span className="text-5xl" role="img" aria-label={character.name}>
                 {character.emoji}
               </span>
-              <span className="text-sm text-white/50">나</span>
+              <span className="text-sm text-white/40">나</span>
             </div>
-            <div className="flex flex-col items-center gap-1.5">
+            <div className="flex flex-col items-center gap-2">
               <span className="text-5xl" role="img" aria-label={refCharacter.name}>
                 {refCharacter.emoji}
               </span>
-              <span className="text-sm text-white/50">친구</span>
+              <span className="text-sm text-white/40">친구</span>
             </div>
           </div>
 
-          <p className="text-white/70 text-center leading-relaxed">
+          <p className="text-white/50 text-center leading-relaxed mb-8">
             {getCompatComment(mainCode, refCode)}
           </p>
 
           <button
             type="button"
             onClick={handleCompatShare}
-            className="mt-6 w-full py-4 rounded-xlarge bg-white/10 text-white/70 font-semibold transition-transform active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60"
+            className="w-full py-4 rounded-xlarge bg-white/8 text-white/50 font-semibold transition-transform active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60"
           >
             궁합 결과 공유하기
           </button>
@@ -202,15 +205,17 @@ const ResultScreen = ({ mainCode, subCode, randomTag, refCode }: ResultScreenPro
 
       {/* COMPAT — static */}
       {!refCharacter && (
-        <section className="w-full max-w-sm rounded-xlarge bg-white/10 p-7" aria-label="궁합 정보">
-          <div className="flex flex-col gap-5 mb-6">
+        <section className="w-full max-w-sm mb-10" aria-label="궁합 정보">
+          <div className="w-12 mx-auto border-t border-white/10 mb-10" />
+
+          <div className="flex flex-col gap-6 mb-8">
             <div className="flex items-center gap-4">
               <span className="text-4xl" role="img" aria-label={bestMatch.name}>
                 {bestMatch.emoji}
               </span>
               <div>
-                <p className="text-sm text-white/50">찰떡궁합</p>
-                <p className="font-semibold">{bestMatch.name}</p>
+                <p className="text-sm text-white/35">찰떡궁합</p>
+                <p className="font-semibold text-white/80">{bestMatch.name}</p>
               </div>
             </div>
             <div className="flex items-center gap-4">
@@ -218,8 +223,8 @@ const ResultScreen = ({ mainCode, subCode, randomTag, refCode }: ResultScreenPro
                 {worstMatch.emoji}
               </span>
               <div>
-                <p className="text-sm text-white/50">상극</p>
-                <p className="font-semibold">{worstMatch.name}</p>
+                <p className="text-sm text-white/35">상극</p>
+                <p className="font-semibold text-white/80">{worstMatch.name}</p>
               </div>
             </div>
           </div>
@@ -227,7 +232,7 @@ const ResultScreen = ({ mainCode, subCode, randomTag, refCode }: ResultScreenPro
           <button
             type="button"
             onClick={handleCopyLink}
-            className="w-full py-4 rounded-xlarge bg-white/10 text-white/70 font-semibold transition-transform active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60"
+            className="w-full py-4 rounded-xlarge bg-white/8 text-white/50 font-semibold transition-transform active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60"
           >
             친구한테 보내서 궁합 확인하기
           </button>
@@ -237,7 +242,7 @@ const ResultScreen = ({ mainCode, subCode, randomTag, refCode }: ResultScreenPro
       <button
         type="button"
         onClick={handleRestart}
-        className="mt-2 mb-8 text-sm text-white/30 hover:text-white/50 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60"
+        className="text-sm text-white/25 hover:text-white/40 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60"
       >
         다시 하기
       </button>
