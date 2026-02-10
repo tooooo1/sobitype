@@ -40,10 +40,10 @@ export const GET = async (request: Request) => {
           fontFamily,
         }}
       >
-        <div style={{ fontSize: 100, marginBottom: 20 }}>💰</div>
+        <div style={{ fontSize: 150, marginBottom: 20 }}>💰</div>
         <div
           style={{
-            fontSize: 32,
+            fontSize: 52,
             color: "rgba(255,255,255,0.6)",
             letterSpacing: "0.2em",
             fontWeight: 700,
@@ -52,8 +52,8 @@ export const GET = async (request: Request) => {
           SOBITYPE
         </div>
         {fontData && (
-          <div style={{ fontSize: 20, color: "rgba(255,255,255,0.35)", marginTop: 12 }}>
-            소비 유형 테스트
+          <div style={{ fontSize: 32, color: "rgba(255,255,255,0.4)", marginTop: 16 }}>
+            내 소비 캐릭터는?
           </div>
         )}
       </div>,
@@ -76,7 +76,7 @@ export const GET = async (request: Request) => {
         fontFamily,
       }}
     >
-      <div style={{ fontSize: 120 }}>{character.emoji}</div>
+      <div style={{ fontSize: 180 }}>{character.emoji}</div>
       {fontData ? (
         <div
           style={{
@@ -87,19 +87,19 @@ export const GET = async (request: Request) => {
         >
           <div
             style={{
-              fontSize: 44,
+              fontSize: 72,
               color: "white",
               fontWeight: 700,
-              marginTop: 24,
+              marginTop: 20,
             }}
           >
             {character.name}
           </div>
           <div
             style={{
-              fontSize: 22,
-              color: "rgba(255,255,255,0.6)",
-              marginTop: 10,
+              fontSize: 36,
+              color: "rgba(255,255,255,0.65)",
+              marginTop: 12,
             }}
           >
             {character.title}
@@ -108,9 +108,9 @@ export const GET = async (request: Request) => {
       ) : null}
       <div
         style={{
-          fontSize: 16,
-          color: "rgba(255,255,255,0.25)",
-          marginTop: 40,
+          fontSize: 22,
+          color: "rgba(255,255,255,0.3)",
+          marginTop: 32,
           letterSpacing: "0.2em",
         }}
       >

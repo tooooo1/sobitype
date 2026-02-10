@@ -47,16 +47,21 @@ const ResultScreen = ({ mainCode, subCode, refCode, onRestart }: ResultScreenPro
 
   return (
     <main className="flex flex-col items-center min-h-screen px-4 pt-8 pb-10">
-      <ReceiptCard
-        character={character}
-        mainCode={mainCode}
-        subCode={subCode}
-        refCode={refCode}
-        onWelfareClick={handleWelfareClick}
-      />
+      <ReceiptCard character={character} mainCode={mainCode} subCode={subCode} refCode={refCode} />
+
+      {/* Welfare CTA */}
+      <a
+        href={`https://www.welfarehello.com?utm_source=sobitype&utm_medium=result&utm_campaign=${mainCode}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={handleWelfareClick}
+        className="w-full max-w-[340px] mt-6 py-3.5 rounded-xlarge bg-white/[0.06] border border-white/10 text-center text-sm text-white/60 font-semibold transition-all active:scale-[0.97] hover:bg-white/10"
+      >
+        💰 숨은 정부 혜택 확인하기
+      </a>
 
       {/* CTA buttons */}
-      <div className="flex flex-col gap-2.5 w-full max-w-[340px] mt-8 mb-6">
+      <div className="flex flex-col gap-2.5 w-full max-w-[340px] mt-4 mb-6">
         <button
           type="button"
           onClick={handleKakao}
@@ -76,7 +81,9 @@ const ResultScreen = ({ mainCode, subCode, refCode, onRestart }: ResultScreenPro
             ? "저장 중..."
             : feedbackId === "save-failed"
               ? "저장 실패 - 다시 시도"
-              : "이미지로 저장하기"}
+              : feedbackId === "save-success"
+                ? "저장 완료!"
+                : "이미지로 저장하기"}
         </button>
         <button
           type="button"

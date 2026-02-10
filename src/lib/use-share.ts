@@ -120,10 +120,10 @@ export const useShare = ({ mainCode, subCode, character, refCode }: UseSharePara
               channel: "share_api",
               full_code: fullCode,
             });
+            return;
           } catch {
-            /* user cancelled share */
+            // share failed (not just cancelled) — fall through to download
           }
-          return;
         }
       }
 
@@ -132,9 +132,13 @@ export const useShare = ({ mainCode, subCode, character, refCode }: UseSharePara
       const link = document.createElement("a");
       link.download = "sobitype-result.png";
       link.href = url;
+      link.style.display = "none";
+      document.body.appendChild(link);
       link.click();
+      document.body.removeChild(link);
       URL.revokeObjectURL(url);
       trackEvent("share_image", { channel: "download", full_code: fullCode });
+      showFeedback("save-success");
     } catch {
       showFeedback("save-failed");
     } finally {

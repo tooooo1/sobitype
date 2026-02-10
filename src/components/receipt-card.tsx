@@ -9,7 +9,6 @@ interface ReceiptCardProps {
   mainCode: MainCode;
   subCode: EIAxis;
   refCode: MainCode | null;
-  onWelfareClick: () => void;
 }
 
 const StatBar = ({ value }: { value: number }) => (
@@ -18,13 +17,7 @@ const StatBar = ({ value }: { value: number }) => (
   </div>
 );
 
-const ReceiptCard = ({
-  character,
-  mainCode,
-  subCode,
-  refCode,
-  onWelfareClick,
-}: ReceiptCardProps) => {
+const ReceiptCard = ({ character, mainCode, subCode, refCode }: ReceiptCardProps) => {
   const fullCode = `${mainCode}${subCode}`;
   const bestMatch = CHARACTERS[character.match.best];
   const worstMatch = CHARACTERS[character.match.worst];
@@ -216,42 +209,6 @@ const ReceiptCard = ({
               {totalScore}
             </span>
           </div>
-        </div>
-
-        <div className="receipt-divider" />
-
-        {/* Welfare CTA */}
-        <div className="py-1">
-          <h3 className="text-[12px] font-bold text-receipt-text mb-3">■ 추가 확인 사항</h3>
-          <div className="flex items-baseline text-[11px] font-mono text-receipt-text">
-            <span className="shrink-0 text-receipt-text/55">숨은 정부 혜택</span>
-            <span
-              className="flex-1 overflow-hidden whitespace-nowrap text-receipt-text/20 mx-0.5"
-              aria-hidden="true"
-            >
-              {".................................................."}
-            </span>
-            <span className="shrink-0 font-bold">미확인</span>
-          </div>
-          <div className="flex items-baseline text-[11px] font-mono text-receipt-text mt-1.5">
-            <span className="shrink-0 text-receipt-text/55">예상 환급액</span>
-            <span
-              className="flex-1 overflow-hidden whitespace-nowrap text-receipt-text/20 mx-0.5"
-              aria-hidden="true"
-            >
-              {".................................................."}
-            </span>
-            <span className="shrink-0 font-bold">???원</span>
-          </div>
-          <a
-            href={`https://www.welfarehello.com?utm_source=sobitype&utm_medium=result&utm_campaign=${mainCode}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={onWelfareClick}
-            className="block mt-3 text-center text-[11px] font-bold text-receipt-text/70 underline underline-offset-2"
-          >
-            &rarr; 내가 받을 수 있는 혜택 확인하기
-          </a>
         </div>
 
         {/* Barcode */}
