@@ -43,11 +43,11 @@ export const CHARACTERS: Record<MainCode, Character> = {
     color: "#a362ff",
     cardBg: "#4401a5",
     rarity: 8.3,
-    badge: "EPIC",
+    badge: "영웅",
     stats: { plan: 80, invest: 70, yolo: 90 },
     oneLiner: "엑셀로 예산 짜놓고 명품 지르는 타입",
     traits: [
-      { label: "계획적 지름력", value: "MAX" },
+      { label: "계획적 지름력", value: "측정불가" },
       { label: "보상소비 비중", value: "87%" },
       { label: "과시 만족도", value: "★★★★★" },
     ],
@@ -60,7 +60,7 @@ export const CHARACTERS: Record<MainCode, Character> = {
     color: "#49b0ff",
     cardBg: "#01599c",
     rarity: 5.1,
-    badge: "EPIC",
+    badge: "영웅",
 
     stats: { plan: 95, invest: 85, yolo: 20 },
     oneLiner: "자동이체 세팅하고 복리를 기다리는 타입",
@@ -78,13 +78,13 @@ export const CHARACTERS: Record<MainCode, Character> = {
     color: "#5ed0a4",
     cardBg: "#27614b",
     rarity: 14.7,
-    badge: "RARE",
+    badge: "희귀",
 
     stats: { plan: 75, invest: 30, yolo: 65 },
     oneLiner: "쿠폰으로 호캉스 가는 가성비 끝판왕",
     traits: [
-      { label: "가성비 스킬", value: "LV.99" },
-      { label: "할인 조합력", value: "MAX" },
+      { label: "가성비 스킬", value: "만렙" },
+      { label: "할인 조합력", value: "측정불가" },
       { label: "삶의 질 타협", value: "불가" },
     ],
     match: { best: "PRL", worst: "SNF" },
@@ -96,7 +96,7 @@ export const CHARACTERS: Record<MainCode, Character> = {
     color: "#90d5ff",
     cardBg: "#006ec3",
     rarity: 11.2,
-    badge: "RARE",
+    badge: "희귀",
 
     stats: { plan: 100, invest: 40, yolo: 5 },
     oneLiner: "구독 해지할 때도 손익 계산하는 타입",
@@ -114,7 +114,7 @@ export const CHARACTERS: Record<MainCode, Character> = {
     color: "#ff7472",
     cardBg: "#8f0000",
     rarity: 18.5,
-    badge: "SPECIAL",
+    badge: "특별",
 
     stats: { plan: 15, invest: 95, yolo: 85 },
     oneLiner: "코인 차트 보면서 잠드는 타입",
@@ -132,13 +132,13 @@ export const CHARACTERS: Record<MainCode, Character> = {
     color: "#ff9b4f",
     cardBg: "#9f4501",
     rarity: 4.2,
-    badge: "LEGENDARY",
+    badge: "전설",
 
     stats: { plan: 30, invest: 80, yolo: 40 },
     oneLiner: "대충 사는 것 같은데 투자 포트폴리오는 완벽",
     traits: [
       { label: "일상 소비 관심", value: "없음" },
-      { label: "투자 집중도", value: "MAX" },
+      { label: "투자 집중도", value: "측정불가" },
       { label: "소비 계획", value: "귀찮" },
     ],
     match: { best: "SRF", worst: "SRL" },
@@ -146,11 +146,11 @@ export const CHARACTERS: Record<MainCode, Character> = {
   PRF: {
     emoji: "🦋",
     name: "자유로운 영혼",
-    title: "돈은 쓰라고 있는 거 아닌가요?",
+    title: "돈은 쓰라고 있는 거 아닌가",
     color: "#ff7fca",
     cardBg: "#ad0065",
     rarity: 24.8,
-    badge: "SPECIAL",
+    badge: "특별",
 
     stats: { plan: 10, invest: 15, yolo: 100 },
     oneLiner: "카드값은 다음 달의 내가 처리해줄 거야",
@@ -168,7 +168,7 @@ export const CHARACTERS: Record<MainCode, Character> = {
     color: "#7be5d9",
     cardBg: "#2f716f",
     rarity: 13.2,
-    badge: "RARE",
+    badge: "희귀",
 
     stats: { plan: 25, invest: 10, yolo: 15 },
     oneLiner: "적금 하나 넣어놓고 존재를 잊는 타입",

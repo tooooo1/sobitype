@@ -203,7 +203,7 @@ const ReceiptCard = ({
 
         {/* Total */}
         <div className="py-1">
-          <p className="text-[11px] text-[#2a2a2e]/50 mb-2 text-center">합계 — 당신의 소비력</p>
+          <p className="text-[11px] text-[#2a2a2e]/50 mb-2 text-center">합계 — 총 소비력</p>
           <div className="flex items-center gap-2">
             <div className="flex-1 h-[12px] bg-[#2a2a2e]/10 overflow-hidden">
               <div className="h-full bg-[#2a2a2e]" style={{ width: `${totalScore}%` }} />

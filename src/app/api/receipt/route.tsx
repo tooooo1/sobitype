@@ -550,7 +550,7 @@ export const GET = async (request: Request) => {
               textAlign: "center",
             }}
           >
-            합계 — 당신의 소비력
+            합계 — 총 소비력
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
             <div

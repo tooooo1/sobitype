@@ -63,8 +63,8 @@ export const getCompatComment = (a: MainCode, b: MainCode): string => {
   return (
     COMPAT_COMMENTS[key] ??
     (a === b
-      ? "완벽한 이해자. 근데 약점도 같아서 위험할 수도 👀"
-      : "서로 다른 매력. 대화가 끊이지 않을 조합 💬")
+      ? "완벽한 이해자. 근데 약점도 같아서 위험할 수도"
+      : "서로 다른 매력. 대화가 끊이지 않을 조합")
   );
 };
 
