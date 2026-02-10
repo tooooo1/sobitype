@@ -111,7 +111,7 @@ const ResultScreen = ({ mainCode, subCode, randomTag, refCode }: ResultScreenPro
 
       {/* RARITY — 히어로 스탯 */}
       <div className="flex flex-col items-center mt-8 mb-8">
-        <span className="text-xs text-white/30 mb-1">전국에서</span>
+        <span className="text-xs text-white/30 mb-1">100명 중</span>
         <div className="flex items-baseline gap-1">
           <span
             className="text-[3rem] font-bold leading-none tabular-nums"
@@ -120,9 +120,10 @@ const ResultScreen = ({ mainCode, subCode, randomTag, refCode }: ResultScreenPro
             {character.rarity}
           </span>
           <span className="text-xl font-bold" style={{ color: character.color }}>
-            %
+            명
           </span>
         </div>
+        <span className="text-xs text-white/30 mt-1">만 이 유형이에요</span>
         <span
           className="mt-2 px-3 py-0.5 rounded-pill text-xs font-bold"
           style={{ backgroundColor: character.badgeColor, color: "#1a1a1a" }}
@@ -137,6 +138,24 @@ const ResultScreen = ({ mainCode, subCode, randomTag, refCode }: ResultScreenPro
         {statBar("투자성향", character.stats.invest)}
         {statBar("YOLO", character.stats.yolo)}
       </div>
+
+      {/* DETAIL — 세부 설명 */}
+      <section className="w-full max-w-sm mb-8" aria-label="세부 설명">
+        <div className="w-10 mx-auto border-t border-white/8 mb-6" />
+        <p className="text-white/60 text-sm leading-relaxed text-center mb-5">
+          {character.description}
+        </p>
+        <ul className="flex flex-col gap-2.5">
+          {character.traits.map((trait) => (
+            <li
+              key={trait}
+              className="text-sm text-white/45 leading-relaxed bg-white/4 rounded-xlarge px-4 py-3"
+            >
+              {trait}
+            </li>
+          ))}
+        </ul>
+      </section>
 
       {/* COMPAT — referral */}
       {refCharacter && refCode && showCompat && (

@@ -37,6 +37,7 @@ export interface Character {
   readonly badgeColor: string;
   readonly stats: CharacterStats;
   readonly oneLiner: string;
+  readonly traits: readonly string[];
   readonly match: { readonly best: MainCode; readonly worst: MainCode };
 }
 
