@@ -18,12 +18,7 @@ const copyToClipboard = async (text: string, onSuccess: () => void) => {
   }
 };
 
-export const useShare = ({
-  mainCode,
-  subCode,
-  character,
-  refCode,
-}: UseShareParams) => {
+export const useShare = ({ mainCode, subCode, character, refCode }: UseShareParams) => {
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const fullCode = `${mainCode}${subCode}`;
@@ -44,8 +39,8 @@ export const useShare = ({
         window.Kakao.Share.sendDefault({
           objectType: "feed",
           content: {
-            title: `${character.emoji} ${character.name}`,
-            description: `${character.title} — 너는 어떤 소비 캐릭터야?`,
+            title: "궁합 도전장이 왔어!",
+            description: `${character.emoji} ${character.name} — 나랑 소비 궁합 확인해볼래?`,
             imageUrl: `${window.location.origin}/api/og?code=${mainCode}`,
             link: {
               mobileWebUrl: shareUrl,
@@ -54,7 +49,7 @@ export const useShare = ({
           },
           buttons: [
             {
-              title: "나도 테스트하기",
+              title: "궁합 확인하러 가기",
               link: {
                 mobileWebUrl: shareUrl,
                 webUrl: shareUrl,
@@ -70,8 +65,8 @@ export const useShare = ({
     if (typeof navigator.share === "function") {
       navigator
         .share({
-          title: `${character.emoji} ${character.name}`,
-          text: `${character.title} — 너는 어떤 소비 캐릭터야?`,
+          title: "궁합 도전장이 왔어!",
+          text: `${character.emoji} ${character.name} — 나랑 소비 궁합 확인해볼래?`,
           url: shareUrl,
         })
         .catch(() => {
@@ -105,8 +100,7 @@ export const useShare = ({
       const blob = await res.blob();
 
       const canShareFiles =
-        typeof navigator.share === "function" &&
-        typeof navigator.canShare === "function";
+        typeof navigator.share === "function" && typeof navigator.canShare === "function";
 
       if (canShareFiles) {
         const file = new File([blob], "sobitype-result.png", {
@@ -151,7 +145,7 @@ export const useShare = ({
 
   const handleCopyOneline = () => {
     const url = buildShareURL(mainCode, subCode, "oneline");
-    const text = `${character.emoji} ${character.name} (전국 ${character.rarity}%) — ${character.oneLiner} 👉 ${url}`;
+    const text = `${character.emoji} ${character.name} — 나랑 소비 궁합 확인해볼래? 👉 ${url}`;
     copyToClipboard(text, () => {
       setCopiedId("oneline");
       trackEvent("share_oneline", { channel: "oneline", full_code: fullCode });
@@ -159,12 +153,13 @@ export const useShare = ({
     });
   };
 
-  const handleCompatShare = () => {
-    if (!refCode) {
-      return;
-    }
-    copyToClipboard(buildShareURL(mainCode, subCode, "compat"), () => {
-      trackEvent("compat_share", { my_code: mainCode, partner_code: refCode });
+  const handleGroupCopy = () => {
+    const url = buildShareURL(mainCode, subCode, "group");
+    const text = `${character.emoji} 나 ${character.name} 나왔다ㅋㅋ 너희는 뭐 나오는지 해봐! 👉 ${url}`;
+    copyToClipboard(text, () => {
+      setCopiedId("group");
+      trackEvent("share_group", { channel: "group", full_code: fullCode });
+      setTimeout(() => setCopiedId(null), 2000);
     });
   };
 
@@ -175,6 +170,6 @@ export const useShare = ({
     handleSaveImage,
     handleCopyLink,
     handleCopyOneline,
-    handleCompatShare,
+    handleGroupCopy,
   };
 };

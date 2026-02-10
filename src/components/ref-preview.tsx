@@ -14,9 +14,9 @@ const RefPreview = ({ refCharacter, onStart }: RefPreviewProps) => {
   return (
     <main
       className="flex flex-col items-center justify-center min-h-screen px-6 text-center"
-      aria-label="친구의 소비 캐릭터 미리보기"
+      aria-label="궁합 도전장"
     >
-      <p className="text-white/35 text-sm mb-6 tracking-wider">친구의 소비 캐릭터</p>
+      <p className="text-white/35 text-sm mb-6 tracking-wider">궁합 도전장이 왔어!</p>
 
       <div className="text-6xl mb-4" role="img" aria-label={refCharacter.name}>
         {refCharacter.emoji}
@@ -45,9 +45,9 @@ const RefPreview = ({ refCharacter, onStart }: RefPreviewProps) => {
       </div>
 
       <p className="text-white/55 text-sm mb-8 leading-relaxed">
-        친구 소비력 <span className="font-bold text-white/90">{totalScore}점</span>이래.
+        친구가 소비 궁합을 확인하자고 보냈어.
         <br />
-        이길 수 있어?
+        <span className="font-bold text-white/90">나는 어떤 캐릭터일까?</span>
       </p>
 
       <button
@@ -57,7 +57,7 @@ const RefPreview = ({ refCharacter, onStart }: RefPreviewProps) => {
                    transition-transform active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60"
         style={{ backgroundColor: refCharacter.color }}
       >
-        나도 테스트하기
+        궁합 확인하러 가기
       </button>
     </main>
   );

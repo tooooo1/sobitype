@@ -14,12 +14,12 @@ export const generateMetadata = async ({
   if (refCode && isMainCode(refCode)) {
     const character = CHARACTERS[refCode];
     return {
-      title: `${character.emoji} ${character.name} | 소비 유형 테스트`,
-      description: `${character.title} — 너는 어떤 소비 캐릭터야? 4문항으로 확인하기`,
+      title: `궁합 도전장 | ${character.emoji} ${character.name}`,
+      description: `${character.emoji} ${character.name} — 나랑 소비 궁합 확인해볼래?`,
       openGraph: {
         type: "website",
-        title: `${character.emoji} ${character.name}`,
-        description: `${character.title} — 너는 어떤 소비 캐릭터야?`,
+        title: "궁합 도전장이 왔어!",
+        description: `${character.emoji} ${character.name} — 나랑 소비 궁합 확인해볼래?`,
         images: [`/api/og?code=${refCode}`],
       },
     };

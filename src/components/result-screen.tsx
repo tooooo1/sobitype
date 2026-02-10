@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import ReceiptCard from "@/components/receipt-card";
 import { CHARACTERS } from "@/lib/characters";
 import { useShare } from "@/lib/use-share";
@@ -14,7 +14,6 @@ interface ResultScreenProps {
 }
 
 const ResultScreen = ({ mainCode, subCode, refCode }: ResultScreenProps) => {
-  const [showCompat, setShowCompat] = useState(false);
   const character = CHARACTERS[mainCode];
   const fullCode = `${mainCode}${subCode}`;
 
@@ -25,7 +24,7 @@ const ResultScreen = ({ mainCode, subCode, refCode }: ResultScreenProps) => {
     handleSaveImage,
     handleCopyLink,
     handleCopyOneline,
-    handleCompatShare,
+    handleGroupCopy,
   } = useShare({ mainCode, subCode, character, refCode });
 
   useEffect(() => {
@@ -37,12 +36,7 @@ const ResultScreen = ({ mainCode, subCode, refCode }: ResultScreenProps) => {
     });
 
     if (refCode) {
-      const timer = setTimeout(() => {
-        setShowCompat(true);
-        trackEvent("compat_auto", { my_code: mainCode, partner_code: refCode });
-      }, 500);
-
-      return () => clearTimeout(timer);
+      trackEvent("compat_auto", { my_code: mainCode, partner_code: refCode });
     }
   }, [mainCode, fullCode, character, refCode]);
 
@@ -65,7 +59,6 @@ const ResultScreen = ({ mainCode, subCode, refCode }: ResultScreenProps) => {
         mainCode={mainCode}
         subCode={subCode}
         refCode={refCode}
-        showCompat={showCompat}
         onWelfareClick={handleWelfareClick}
       />
 
@@ -77,7 +70,7 @@ const ResultScreen = ({ mainCode, subCode, refCode }: ResultScreenProps) => {
           className="w-full py-4 rounded-xlarge font-semibold transition-transform active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400"
           style={{ backgroundColor: "#FEE500", color: "#191919" }}
         >
-          카카오톡으로 공유하기
+          궁합 도전장 보내기
         </button>
         <button
           type="button"
@@ -97,21 +90,20 @@ const ResultScreen = ({ mainCode, subCode, refCode }: ResultScreenProps) => {
         </button>
         <button
           type="button"
+          onClick={handleGroupCopy}
+          aria-live="polite"
+          className="w-full py-3.5 rounded-xlarge bg-white/10 text-white/60 font-semibold transition-transform active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60"
+        >
+          {copiedId === "group" ? "복사 완료!" : "단톡방에 공유"}
+        </button>
+        <button
+          type="button"
           onClick={handleCopyLink}
           aria-live="polite"
           className="w-full py-3.5 rounded-xlarge bg-white/8 text-white/50 font-semibold transition-transform active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60"
         >
           {copiedId === "link" ? "복사 완료!" : "링크 복사"}
         </button>
-        {refCode && showCompat && (
-          <button
-            type="button"
-            onClick={handleCompatShare}
-            className="w-full py-3 rounded-xlarge bg-white/8 text-sm text-white/40 font-semibold transition-transform active:scale-[0.97]"
-          >
-            궁합 결과 공유하기
-          </button>
-        )}
       </div>
 
       <button

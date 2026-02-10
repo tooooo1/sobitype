@@ -49,9 +49,9 @@ export type GAEventName =
   | "share_kakao"
   | "share_oneline"
   | "share_link"
+  | "share_group"
   | "share_image"
   | "compat_auto"
-  | "compat_share"
   | "ref_landing"
   | "click_welfare"
   | "restart";
