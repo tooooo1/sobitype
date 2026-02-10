@@ -55,7 +55,8 @@ const ResultScreen = ({ mainCode, subCode, refCode, onRestart }: ResultScreenPro
         target="_blank"
         rel="noopener noreferrer"
         onClick={handleWelfareClick}
-        className="w-full max-w-[340px] mt-6 py-3.5 rounded-xlarge bg-white/[0.06] border border-white/10 text-center text-sm text-white/60 font-semibold transition-all active:scale-[0.97] hover:bg-white/10"
+        className="w-full max-w-[340px] mt-6 py-3.5 rounded-xlarge text-center text-sm text-white font-semibold transition-all active:scale-[0.97] hover:brightness-110"
+        style={{ backgroundColor: "rgb(28, 156, 255)" }}
       >
         💰 숨은 정부 혜택 확인하기
       </a>
