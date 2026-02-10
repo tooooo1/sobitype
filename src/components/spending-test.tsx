@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ErrorBoundary from "@/components/error-boundary";
 import LoadingScreen from "@/components/loading-screen";
 import QuestionScreen from "@/components/question-screen";
@@ -19,12 +19,21 @@ const SpendingTest = ({ refCode }: { refCode: MainCode | null }) => {
     }
     return { phase: "question", qi: 0, answers: [], refCode: null };
   });
+  const loadingTimer = useRef<ReturnType<typeof setTimeout>>(null);
 
   useEffect(() => {
     if (refCode) {
       trackEvent("ref_landing", { referrer_code: refCode });
     }
   }, [refCode]);
+
+  useEffect(() => {
+    return () => {
+      if (loadingTimer.current) {
+        clearTimeout(loadingTimer.current);
+      }
+    };
+  }, []);
 
   const handleRefStart = () => {
     if (state.phase !== "ref-preview") {
@@ -47,7 +56,7 @@ const SpendingTest = ({ refCode }: { refCode: MainCode | null }) => {
       const { mainCode, subCode } = deriveResult(nextAnswers);
       setState({ phase: "loading", mainCode, subCode, refCode });
 
-      setTimeout(() => {
+      loadingTimer.current = setTimeout(() => {
         setState({ phase: "result", mainCode, subCode, refCode });
       }, LOADING_DURATION);
     }

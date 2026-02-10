@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { buildShareURL, trackEvent } from "@/lib/utils";
 import type { Character, EIAxis, MainCode } from "@/types";
 
@@ -23,11 +23,15 @@ const copyToClipboard = async (text: string): Promise<boolean> => {
 export const useShare = ({ mainCode, subCode, character, refCode }: UseShareParams) => {
   const [feedbackId, setFeedbackId] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
+  const feedbackTimer = useRef<ReturnType<typeof setTimeout>>(null);
   const fullCode = `${mainCode}${subCode}`;
 
   const showFeedback = (id: string) => {
+    if (feedbackTimer.current) {
+      clearTimeout(feedbackTimer.current);
+    }
     setFeedbackId(id);
-    setTimeout(() => setFeedbackId(null), FEEDBACK_DURATION);
+    feedbackTimer.current = setTimeout(() => setFeedbackId(null), FEEDBACK_DURATION);
   };
 
   const handleKakao = () => {
