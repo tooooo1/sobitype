@@ -143,33 +143,11 @@ export const useShare = ({ mainCode, subCode, character, refCode }: UseSharePara
     });
   };
 
-  const handleCopyOneline = () => {
-    const url = buildShareURL(mainCode, subCode, "oneline");
-    const text = `${character.emoji} ${character.name} — 나랑 소비 궁합 확인해볼래? 👉 ${url}`;
-    copyToClipboard(text, () => {
-      setCopiedId("oneline");
-      trackEvent("share_oneline", { channel: "oneline", full_code: fullCode });
-      setTimeout(() => setCopiedId(null), 2000);
-    });
-  };
-
-  const handleGroupCopy = () => {
-    const url = buildShareURL(mainCode, subCode, "group");
-    const text = `${character.emoji} 나 ${character.name} 나왔다ㅋㅋ 너희는 뭐 나오는지 해봐! 👉 ${url}`;
-    copyToClipboard(text, () => {
-      setCopiedId("group");
-      trackEvent("share_group", { channel: "group", full_code: fullCode });
-      setTimeout(() => setCopiedId(null), 2000);
-    });
-  };
-
   return {
     copiedId,
     saving,
     handleKakao,
     handleSaveImage,
     handleCopyLink,
-    handleCopyOneline,
-    handleGroupCopy,
   };
 };

@@ -17,15 +17,12 @@ const ResultScreen = ({ mainCode, subCode, refCode }: ResultScreenProps) => {
   const character = CHARACTERS[mainCode];
   const fullCode = `${mainCode}${subCode}`;
 
-  const {
-    copiedId,
-    saving,
-    handleKakao,
-    handleSaveImage,
-    handleCopyLink,
-    handleCopyOneline,
-    handleGroupCopy,
-  } = useShare({ mainCode, subCode, character, refCode });
+  const { copiedId, saving, handleKakao, handleSaveImage, handleCopyLink } = useShare({
+    mainCode,
+    subCode,
+    character,
+    refCode,
+  });
 
   useEffect(() => {
     trackEvent("result_view", {
@@ -79,22 +76,6 @@ const ResultScreen = ({ mainCode, subCode, refCode }: ResultScreenProps) => {
           className="w-full py-3.5 rounded-xlarge bg-white/10 text-white/70 font-semibold transition-transform active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60 disabled:opacity-50"
         >
           {saving ? "저장 중..." : "이미지로 저장하기"}
-        </button>
-        <button
-          type="button"
-          onClick={handleCopyOneline}
-          aria-live="polite"
-          className="w-full py-3.5 rounded-xlarge bg-white/10 text-white/60 font-semibold transition-transform active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60"
-        >
-          {copiedId === "oneline" ? "복사 완료!" : "한 줄 복사"}
-        </button>
-        <button
-          type="button"
-          onClick={handleGroupCopy}
-          aria-live="polite"
-          className="w-full py-3.5 rounded-xlarge bg-white/10 text-white/60 font-semibold transition-transform active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60"
-        >
-          {copiedId === "group" ? "복사 완료!" : "단톡방에 공유"}
         </button>
         <button
           type="button"

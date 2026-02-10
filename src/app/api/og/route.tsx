@@ -78,7 +78,13 @@ export const GET = async (request: Request) => {
     >
       <div style={{ fontSize: 120 }}>{character.emoji}</div>
       {fontData ? (
-        <>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
           <div
             style={{
               fontSize: 44,
@@ -98,7 +104,7 @@ export const GET = async (request: Request) => {
           >
             {character.title}
           </div>
-        </>
+        </div>
       ) : null}
       <div
         style={{
