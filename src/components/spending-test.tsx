@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import ErrorBoundary from "@/components/error-boundary";
 import LoadingScreen from "@/components/loading-screen";
 import QuestionScreen from "@/components/question-screen";
 import RefPreview from "@/components/ref-preview";
@@ -52,8 +53,17 @@ const SpendingTest = ({ refCode }: { refCode: MainCode | null }) => {
     }
   };
 
+  const handleRestart = () => {
+    trackEvent("restart");
+    setState({ phase: "question", qi: 0, answers: [], refCode: null });
+  };
+
   if (state.phase === "ref-preview") {
-    return <RefPreview refCharacter={CHARACTERS[state.refCode]} onStart={handleRefStart} />;
+    return (
+      <ErrorBoundary>
+        <RefPreview refCharacter={CHARACTERS[state.refCode]} onStart={handleRefStart} />
+      </ErrorBoundary>
+    );
   }
 
   const content = (() => {
@@ -73,7 +83,12 @@ const SpendingTest = ({ refCode }: { refCode: MainCode | null }) => {
     }
     if (state.phase === "result") {
       return (
-        <ResultScreen mainCode={state.mainCode} subCode={state.subCode} refCode={state.refCode} />
+        <ResultScreen
+          mainCode={state.mainCode}
+          subCode={state.subCode}
+          refCode={state.refCode}
+          onRestart={handleRestart}
+        />
       );
     }
     return null;
@@ -83,7 +98,11 @@ const SpendingTest = ({ refCode }: { refCode: MainCode | null }) => {
     return null;
   }
 
-  return <div className="min-h-screen text-white bg-background">{content}</div>;
+  return (
+    <ErrorBoundary>
+      <div className="min-h-screen text-white bg-background">{content}</div>
+    </ErrorBoundary>
+  );
 };
 
 export default SpendingTest;

@@ -11,13 +11,14 @@ interface ResultScreenProps {
   mainCode: MainCode;
   subCode: EIAxis;
   refCode: MainCode | null;
+  onRestart: () => void;
 }
 
-const ResultScreen = ({ mainCode, subCode, refCode }: ResultScreenProps) => {
+const ResultScreen = ({ mainCode, subCode, refCode, onRestart }: ResultScreenProps) => {
   const character = CHARACTERS[mainCode];
   const fullCode = `${mainCode}${subCode}`;
 
-  const { copiedId, saving, handleKakao, handleSaveImage, handleCopyLink } = useShare({
+  const { feedbackId, saving, handleKakao, handleSaveImage, handleCopyLink } = useShare({
     mainCode,
     subCode,
     character,
@@ -44,11 +45,6 @@ const ResultScreen = ({ mainCode, subCode, refCode }: ResultScreenProps) => {
     });
   };
 
-  const handleRestart = () => {
-    trackEvent("restart");
-    window.location.href = window.location.origin;
-  };
-
   return (
     <main className="flex flex-col items-center min-h-screen px-4 pt-8 pb-10">
       <ReceiptCard
@@ -73,9 +69,14 @@ const ResultScreen = ({ mainCode, subCode, refCode }: ResultScreenProps) => {
           type="button"
           onClick={handleSaveImage}
           disabled={saving}
+          aria-live="polite"
           className="w-full py-3.5 rounded-xlarge bg-white/10 text-white/70 font-semibold transition-transform active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60 disabled:opacity-50"
         >
-          {saving ? "저장 중..." : "이미지로 저장하기"}
+          {saving
+            ? "저장 중..."
+            : feedbackId === "save-failed"
+              ? "저장 실패 - 다시 시도"
+              : "이미지로 저장하기"}
         </button>
         <button
           type="button"
@@ -83,13 +84,17 @@ const ResultScreen = ({ mainCode, subCode, refCode }: ResultScreenProps) => {
           aria-live="polite"
           className="w-full py-3.5 rounded-xlarge bg-white/8 text-white/50 font-semibold transition-transform active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60"
         >
-          {copiedId === "link" ? "복사 완료!" : "링크 복사"}
+          {feedbackId === "link-copied"
+            ? "복사 완료!"
+            : feedbackId === "link-failed"
+              ? "복사 실패"
+              : "링크 복사"}
         </button>
       </div>
 
       <button
         type="button"
-        onClick={handleRestart}
+        onClick={onRestart}
         className="text-xs text-white/20 hover:text-white/35 transition-colors"
       >
         다시 하기

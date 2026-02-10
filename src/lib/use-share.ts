@@ -9,21 +9,26 @@ interface UseShareParams {
   refCode: MainCode | null;
 }
 
-const COPY_FEEDBACK_DURATION = 2000;
+const FEEDBACK_DURATION = 2000;
 
-const copyToClipboard = async (text: string, onSuccess: () => void) => {
+const copyToClipboard = async (text: string): Promise<boolean> => {
   try {
     await navigator.clipboard.writeText(text);
-    onSuccess();
+    return true;
   } catch {
-    /* noop */
+    return false;
   }
 };
 
 export const useShare = ({ mainCode, subCode, character, refCode }: UseShareParams) => {
-  const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [feedbackId, setFeedbackId] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const fullCode = `${mainCode}${subCode}`;
+
+  const showFeedback = (id: string) => {
+    setFeedbackId(id);
+    setTimeout(() => setFeedbackId(null), FEEDBACK_DURATION);
+  };
 
   const handleKakao = () => {
     trackEvent("share_kakao", { channel: "kakao", full_code: fullCode });
@@ -78,9 +83,8 @@ export const useShare = ({ mainCode, subCode, character, refCode }: UseSharePara
     }
 
     // Final fallback: clipboard
-    copyToClipboard(shareUrl, () => {
-      setCopiedId("link");
-      setTimeout(() => setCopiedId(null), COPY_FEEDBACK_DURATION);
+    copyToClipboard(shareUrl).then((ok) => {
+      showFeedback(ok ? "link-copied" : "link-failed");
     });
   };
 
@@ -97,6 +101,7 @@ export const useShare = ({ mainCode, subCode, character, refCode }: UseSharePara
       }
       const res = await fetch(`/api/receipt?${params}`);
       if (!res.ok) {
+        showFeedback("save-failed");
         return;
       }
       const blob = await res.blob();
@@ -131,22 +136,22 @@ export const useShare = ({ mainCode, subCode, character, refCode }: UseSharePara
       URL.revokeObjectURL(url);
       trackEvent("share_image", { channel: "download", full_code: fullCode });
     } catch {
-      /* noop */
+      showFeedback("save-failed");
     } finally {
       setSaving(false);
     }
   };
 
-  const handleCopyLink = () => {
-    copyToClipboard(buildShareURL(mainCode, subCode, "link"), () => {
-      setCopiedId("link");
+  const handleCopyLink = async () => {
+    const ok = await copyToClipboard(buildShareURL(mainCode, subCode, "link"));
+    if (ok) {
       trackEvent("share_link", { channel: "link", full_code: fullCode });
-      setTimeout(() => setCopiedId(null), COPY_FEEDBACK_DURATION);
-    });
+    }
+    showFeedback(ok ? "link-copied" : "link-failed");
   };
 
   return {
-    copiedId,
+    feedbackId,
     saving,
     handleKakao,
     handleSaveImage,
