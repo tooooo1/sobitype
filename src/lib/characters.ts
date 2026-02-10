@@ -44,7 +44,6 @@ export const CHARACTERS: Record<MainCode, Character> = {
     cardBg: "#4401a5",
     rarity: 8.3,
     badge: "EPIC",
-    badgeColor: "#c6a2ff",
     stats: { plan: 80, invest: 70, yolo: 90 },
     oneLiner: "엑셀로 예산 짜놓고 명품 지르는 타입",
     traits: [
@@ -62,7 +61,7 @@ export const CHARACTERS: Record<MainCode, Character> = {
     cardBg: "#01599c",
     rarity: 5.1,
     badge: "EPIC",
-    badgeColor: "#49b0ff",
+
     stats: { plan: 95, invest: 85, yolo: 20 },
     oneLiner: "자동이체 세팅하고 복리를 기다리는 타입",
     traits: [
@@ -80,7 +79,7 @@ export const CHARACTERS: Record<MainCode, Character> = {
     cardBg: "#27614b",
     rarity: 14.7,
     badge: "RARE",
-    badgeColor: "#b0f7cd",
+
     stats: { plan: 75, invest: 30, yolo: 65 },
     oneLiner: "쿠폰으로 호캉스 가는 가성비 끝판왕",
     traits: [
@@ -98,7 +97,7 @@ export const CHARACTERS: Record<MainCode, Character> = {
     cardBg: "#006ec3",
     rarity: 11.2,
     badge: "RARE",
-    badgeColor: "#90d5ff",
+
     stats: { plan: 100, invest: 40, yolo: 5 },
     oneLiner: "구독 해지할 때도 손익 계산하는 타입",
     traits: [
@@ -116,7 +115,7 @@ export const CHARACTERS: Record<MainCode, Character> = {
     cardBg: "#8f0000",
     rarity: 18.5,
     badge: "SPECIAL",
-    badgeColor: "#ffd4d4",
+
     stats: { plan: 15, invest: 95, yolo: 85 },
     oneLiner: "코인 차트 보면서 잠드는 타입",
     traits: [
@@ -134,7 +133,7 @@ export const CHARACTERS: Record<MainCode, Character> = {
     cardBg: "#9f4501",
     rarity: 4.2,
     badge: "LEGENDARY",
-    badgeColor: "#ff9b4f",
+
     stats: { plan: 30, invest: 80, yolo: 40 },
     oneLiner: "대충 사는 것 같은데 투자 포트폴리오는 완벽",
     traits: [
@@ -152,7 +151,7 @@ export const CHARACTERS: Record<MainCode, Character> = {
     cardBg: "#ad0065",
     rarity: 24.8,
     badge: "SPECIAL",
-    badgeColor: "#ffb7e1",
+
     stats: { plan: 10, invest: 15, yolo: 100 },
     oneLiner: "카드값은 다음 달의 내가 처리해줄 거야",
     traits: [
@@ -170,7 +169,7 @@ export const CHARACTERS: Record<MainCode, Character> = {
     cardBg: "#2f716f",
     rarity: 13.2,
     badge: "RARE",
-    badgeColor: "#a5f1e7",
+
     stats: { plan: 25, invest: 10, yolo: 15 },
     oneLiner: "적금 하나 넣어놓고 존재를 잊는 타입",
     traits: [
