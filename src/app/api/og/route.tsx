@@ -40,19 +40,16 @@ export const GET = async (request: Request) => {
           fontFamily,
         }}
       >
-        <div style={{ fontSize: 150, marginBottom: 20 }}>💰</div>
-        <div
-          style={{
-            fontSize: 52,
-            color: "rgba(255,255,255,0.6)",
-            letterSpacing: "0.2em",
-            fontWeight: 700,
-          }}
-        >
-          SOBITYPE
-        </div>
+        <div style={{ fontSize: 240 }}>💰</div>
         {fontData && (
-          <div style={{ fontSize: 32, color: "rgba(255,255,255,0.4)", marginTop: 16 }}>
+          <div
+            style={{
+              fontSize: 56,
+              color: "rgba(255,255,255,0.7)",
+              fontWeight: 700,
+              marginTop: 16,
+            }}
+          >
             내 소비 캐릭터는?
           </div>
         )}
@@ -76,46 +73,19 @@ export const GET = async (request: Request) => {
         fontFamily,
       }}
     >
-      <div style={{ fontSize: 180 }}>{character.emoji}</div>
+      <div style={{ fontSize: 280 }}>{character.emoji}</div>
       {fontData ? (
         <div
           style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
+            fontSize: 88,
+            color: "white",
+            fontWeight: 700,
+            marginTop: 8,
           }}
         >
-          <div
-            style={{
-              fontSize: 72,
-              color: "white",
-              fontWeight: 700,
-              marginTop: 20,
-            }}
-          >
-            {character.name}
-          </div>
-          <div
-            style={{
-              fontSize: 36,
-              color: "rgba(255,255,255,0.65)",
-              marginTop: 12,
-            }}
-          >
-            {character.title}
-          </div>
+          {character.name}
         </div>
       ) : null}
-      <div
-        style={{
-          fontSize: 22,
-          color: "rgba(255,255,255,0.3)",
-          marginTop: 32,
-          letterSpacing: "0.2em",
-        }}
-      >
-        SOBITYPE
-      </div>
     </div>,
     { width: 1200, height: 630, fonts },
   );
