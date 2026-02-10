@@ -40,8 +40,6 @@ export const CHARACTERS: Record<MainCode, Character> = {
     emoji: "✨",
     name: "플렉스 전략가",
     title: "계획적으로 화려하게 쓴다",
-    description:
-      "예산 앱 깔아놓고 명품 사는 타입. 무계획하게 쓰는 게 아니라, 계획적으로 큰 걸 지른다. 주변에선 부자인 줄 알지만, 엑셀에는 빨간 셀이 좀 있다.",
     color: "#a362ff",
     cardBg: "#4401a5",
     rarity: 8.3,
@@ -60,8 +58,6 @@ export const CHARACTERS: Record<MainCode, Character> = {
     emoji: "🏗️",
     name: "자산 설계자",
     title: "시스템으로 돈을 불린다",
-    description:
-      "자동이체 세팅해놓고 복리를 믿는 타입. 30대에 벌써 노후 계획이 있다. 친구들은 재미없다고 하지만, 10년 뒤에 웃는 건 너야.",
     color: "#49b0ff",
     cardBg: "#01599c",
     rarity: 5.1,
@@ -80,8 +76,6 @@ export const CHARACTERS: Record<MainCode, Character> = {
     emoji: "🎯",
     name: "똑똑한 향유자",
     title: "아끼면서도 인생을 즐긴다",
-    description:
-      '쿠폰 써서 호텔 가고, 마일리지로 비행기 타는 타입. 적게 쓰면서 많이 누리는 기술의 달인. "가성비 끝판왕"이라는 칭호가 어울린다.',
     color: "#5ed0a4",
     cardBg: "#27614b",
     rarity: 14.7,
@@ -100,8 +94,6 @@ export const CHARACTERS: Record<MainCode, Character> = {
     emoji: "🛡️",
     name: "철벽 수호자",
     title: "한 푼도 새어나가지 않는다",
-    description:
-      "가계부 앱 3개 동시 사용. 구독 서비스 하나 해지할 때도 손익 계산한다. 주변에선 짠돌이라 하지만, 너만큼 마음이 편한 사람도 없다.",
     color: "#90d5ff",
     cardBg: "#006ec3",
     rarity: 11.2,
@@ -120,8 +112,6 @@ export const CHARACTERS: Record<MainCode, Character> = {
     emoji: "🔥",
     name: "본능적 투자자",
     title: "감으로 사고 감으로 판다",
-    description:
-      '주식 알림 켜놓고 출근하고, 코인 차트 보면서 잠든다. 수익도 크지만 손실도 큰 롤러코스터 인생. "인생은 한 방"이 좌우명.',
     color: "#ff7472",
     cardBg: "#8f0000",
     rarity: 18.5,
@@ -140,8 +130,6 @@ export const CHARACTERS: Record<MainCode, Character> = {
     emoji: "🎰",
     name: "반전매력 재테커",
     title: "즉흥인 줄 알았지? 투자는 진지",
-    description:
-      "평소엔 대충 사는 것 같은데, 투자 얘기 나오면 눈이 반짝. 겉으론 자유로워 보이지만 통장은 의외로 체계적이다.",
     color: "#ff9b4f",
     cardBg: "#9f4501",
     rarity: 4.2,
@@ -160,8 +148,6 @@ export const CHARACTERS: Record<MainCode, Character> = {
     emoji: "🦋",
     name: "자유로운 영혼",
     title: "돈은 쓰라고 있는 거 아닌가요?",
-    description:
-      '통장 잔고? 안 본다. 카드값? 다음 달의 나에게 맡긴다. "지금 이 순간"을 사는 철학자. 걱정은 내일의 내가 하겠지.',
     color: "#ff7fca",
     cardBg: "#ad0065",
     rarity: 24.8,
@@ -180,8 +166,6 @@ export const CHARACTERS: Record<MainCode, Character> = {
     emoji: "🐢",
     name: "느긋한 저축러",
     title: "급할 거 없다. 천천히 모으는 중",
-    description:
-      '적금 하나 들어놓고 잊고 사는 타입. 투자는 무섭고, 큰 소비도 안 한다. "안전이 제일"이라는 마인드인데, 물가는 기다려주지 않는다는 게 함정.',
     color: "#7be5d9",
     cardBg: "#2f716f",
     rarity: 13.2,
@@ -203,8 +187,6 @@ export const SUB_TAGS: Record<"E" | "I", string> = {
   I: "조용히부자되는",
 };
 
-export const RANDOM_TAGS = ["후배밥잘사는", "정산철저한", "충동구매참는", "포인트적립러"] as const;
-
 export const COMPAT_COMMENTS: Record<string, string> = {
   "SNF-SRL": "한 명이 지르면 한 명이 막는다. 환상의 밸런스",
   "PRF-SNL": "설계자가 자유로운 영혼을 만나면? 의외로 찰떡",
@@ -218,8 +200,4 @@ export const COMPAT_COMMENTS: Record<string, string> = {
   "PNL-SRF": "반전 재테커와 향유자. 의외로 통하는 조합",
 };
 
-export const LOADING_TEXTS = [
-  "소비 내역 조회 중...",
-  "유형 매칭 중...",
-  "명세서 발급 중...",
-] as const;
+export const LOADING_TEXTS = ["돈 DNA 분석 중...", "유형 매칭 중...", "명세서 발급 중..."] as const;

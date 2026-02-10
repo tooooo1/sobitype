@@ -1,10 +1,6 @@
 import { ImageResponse } from "next/og";
 import { CHARACTERS } from "@/lib/characters";
-import type { MainCode } from "@/types";
-
-const isMainCode = (code: string): code is MainCode => {
-  return code in CHARACTERS;
-};
+import { isMainCode } from "@/lib/utils";
 
 const FONT_URL =
   "https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/packages/pretendard/dist/public/static/Pretendard-Bold.otf";

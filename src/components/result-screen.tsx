@@ -1,19 +1,18 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { CHARACTERS } from "@/lib/characters";
+import { CHARACTERS, SUB_TAGS } from "@/lib/characters";
 import { buildShareURL, getCompatComment, trackEvent } from "@/lib/utils";
 import type { EIAxis, MainCode } from "@/types";
 
 interface ResultScreenProps {
   mainCode: MainCode;
   subCode: EIAxis;
-  randomTag: string;
   refCode: MainCode | null;
 }
 
-const ResultScreen = ({ mainCode, subCode, randomTag: _randomTag, refCode }: ResultScreenProps) => {
-  const [copied, setCopied] = useState(false);
+const ResultScreen = ({ mainCode, subCode, refCode }: ResultScreenProps) => {
+  const [copiedId, setCopiedId] = useState<string | null>(null);
   const [showCompat, setShowCompat] = useState(false);
   const [saving, setSaving] = useState(false);
   const receiptRef = useRef<HTMLDivElement>(null);
@@ -111,8 +110,8 @@ const ResultScreen = ({ mainCode, subCode, randomTag: _randomTag, refCode }: Res
 
     // Final fallback: clipboard
     copyToClipboard(shareUrl, () => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      setCopiedId("link");
+      setTimeout(() => setCopiedId(null), 2000);
     });
   };
 
@@ -123,34 +122,38 @@ const ResultScreen = ({ mainCode, subCode, randomTag: _randomTag, refCode }: Res
 
     setSaving(true);
     try {
-      const html2canvas = (await import("html2canvas")).default;
-      const canvas = await html2canvas(receiptRef.current, {
+      const { toBlob } = await import("html-to-image");
+      const blob = await toBlob(receiptRef.current, {
         backgroundColor: "#141418",
-        scale: 2,
+        pixelRatio: 2,
       });
+      if (!blob) {
+        return;
+      }
 
       const canShareFiles =
         typeof navigator.share === "function" && typeof navigator.canShare === "function";
 
       if (canShareFiles) {
-        const blob = await new Promise<Blob | null>((resolve) =>
-          canvas.toBlob(resolve, "image/png"),
-        );
-        if (blob) {
-          const file = new File([blob], "sobitype-result.png", { type: "image/png" });
-          if (navigator.canShare({ files: [file] })) {
+        const file = new File([blob], "sobitype-result.png", { type: "image/png" });
+        if (navigator.canShare({ files: [file] })) {
+          try {
             await navigator.share({ files: [file] });
             trackEvent("share_image", { channel: "share_api", full_code: fullCode });
-            return;
+          } catch {
+            /* user cancelled share */
           }
+          return;
         }
       }
 
       // Fallback: download
+      const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.download = "sobitype-result.png";
-      link.href = canvas.toDataURL("image/png");
+      link.href = url;
       link.click();
+      URL.revokeObjectURL(url);
       trackEvent("share_image", { channel: "download", full_code: fullCode });
     } catch {
       /* noop */
@@ -161,10 +164,24 @@ const ResultScreen = ({ mainCode, subCode, randomTag: _randomTag, refCode }: Res
 
   const handleCopyLink = () => {
     copyToClipboard(buildShareURL(mainCode, subCode, "link"), () => {
-      setCopied(true);
+      setCopiedId("link");
       trackEvent("share_link", { channel: "link", full_code: fullCode });
-      setTimeout(() => setCopied(false), 2000);
+      setTimeout(() => setCopiedId(null), 2000);
     });
+  };
+
+  const handleCopyOneline = () => {
+    const url = buildShareURL(mainCode, subCode, "oneline");
+    const text = `${character.emoji} ${character.name} (전국 ${character.rarity}%) — ${character.oneLiner} 👉 ${url}`;
+    copyToClipboard(text, () => {
+      setCopiedId("oneline");
+      trackEvent("share_oneline", { channel: "oneline", full_code: fullCode });
+      setTimeout(() => setCopiedId(null), 2000);
+    });
+  };
+
+  const handleWelfareClick = () => {
+    trackEvent("click_welfare", { full_code: fullCode, character_name: character.name });
   };
 
   const handleRestart = () => {
@@ -224,6 +241,9 @@ const ResultScreen = ({ mainCode, subCode, randomTag: _randomTag, refCode }: Res
             </div>
             <h1 className="text-[1.35rem] font-bold text-[#2a2a2e]">{character.name}</h1>
             <p className="text-[12px] text-[#2a2a2e]/45 mt-1">&ldquo;{character.title}&rdquo;</p>
+            <span className="inline-block mt-2 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#2a2a2e]/8 text-[#2a2a2e]/50">
+              #{SUB_TAGS[subCode]}
+            </span>
           </div>
 
           <div className="receipt-divider" />
@@ -343,6 +363,42 @@ const ResultScreen = ({ mainCode, subCode, randomTag: _randomTag, refCode }: Res
             </div>
           </div>
 
+          <div className="receipt-divider" />
+
+          {/* Welfare CTA */}
+          <div className="py-1">
+            <h3 className="text-[12px] font-bold text-[#2a2a2e] mb-3">■ 추가 확인 사항</h3>
+            <div className="flex items-baseline text-[11px] font-mono text-[#2a2a2e]">
+              <span className="shrink-0 text-[#2a2a2e]/55">숨은 정부 혜택</span>
+              <span
+                className="flex-1 overflow-hidden whitespace-nowrap text-[#2a2a2e]/20 mx-0.5"
+                aria-hidden="true"
+              >
+                {".................................................."}
+              </span>
+              <span className="shrink-0 font-bold">미확인</span>
+            </div>
+            <div className="flex items-baseline text-[11px] font-mono text-[#2a2a2e] mt-1.5">
+              <span className="shrink-0 text-[#2a2a2e]/55">예상 환급액</span>
+              <span
+                className="flex-1 overflow-hidden whitespace-nowrap text-[#2a2a2e]/20 mx-0.5"
+                aria-hidden="true"
+              >
+                {".................................................."}
+              </span>
+              <span className="shrink-0 font-bold">???원</span>
+            </div>
+            <a
+              href={`https://www.welfarehello.com?utm_source=sobitype&utm_medium=result&utm_campaign=${mainCode}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={handleWelfareClick}
+              className="block mt-3 text-center text-[11px] font-bold text-[#2a2a2e]/70 underline underline-offset-2"
+            >
+              &rarr; 내가 받을 수 있는 혜택 확인하기
+            </a>
+          </div>
+
           {/* Barcode */}
           <div className="receipt-barcode mt-5 mx-auto" />
         </div>
@@ -371,11 +427,19 @@ const ResultScreen = ({ mainCode, subCode, randomTag: _randomTag, refCode }: Res
         </button>
         <button
           type="button"
+          onClick={handleCopyOneline}
+          aria-live="polite"
+          className="w-full py-3.5 rounded-xlarge bg-white/10 text-white/60 font-semibold transition-transform active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60"
+        >
+          {copiedId === "oneline" ? "복사 완료!" : "한 줄 복사"}
+        </button>
+        <button
+          type="button"
           onClick={handleCopyLink}
           aria-live="polite"
           className="w-full py-3.5 rounded-xlarge bg-white/8 text-white/50 font-semibold transition-transform active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60"
         >
-          {copied ? "복사 완료!" : "링크 복사"}
+          {copiedId === "link" ? "복사 완료!" : "링크 복사"}
         </button>
         {refCharacter && refCode && showCompat && (
           <button

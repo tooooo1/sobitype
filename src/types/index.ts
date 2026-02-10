@@ -29,7 +29,6 @@ export interface Character {
   readonly emoji: string;
   readonly name: string;
   readonly title: string;
-  readonly description: string;
   readonly color: string;
   readonly cardBg: string;
   readonly rarity: number;
@@ -54,12 +53,12 @@ export type GAEventName =
   | "compat_auto"
   | "compat_share"
   | "ref_landing"
+  | "click_welfare"
   | "restart";
 
 type ResultData = {
   mainCode: MainCode;
   subCode: EIAxis;
-  randomTag: string;
   refCode: MainCode | null;
 };
 

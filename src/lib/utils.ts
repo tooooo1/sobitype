@@ -1,4 +1,4 @@
-import { CHARACTERS, COMPAT_COMMENTS, RANDOM_TAGS } from "@/lib/characters";
+import { CHARACTERS, COMPAT_COMMENTS } from "@/lib/characters";
 import type { EIAxis, GAEventName, MainCode } from "@/types";
 
 declare global {
@@ -26,7 +26,7 @@ declare global {
   }
 }
 
-const isMainCode = (code: string): code is MainCode => {
+export const isMainCode = (code: string): code is MainCode => {
   return code in CHARACTERS;
 };
 
@@ -78,8 +78,4 @@ export const buildShareURL = (mainCode: MainCode, subCode: EIAxis, channel: stri
     return "";
   }
   return `${window.location.origin}?ref=${mainCode}${subCode}&ch=${channel}`;
-};
-
-export const getRandomTag = (): string => {
-  return RANDOM_TAGS[Math.floor(Math.random() * RANDOM_TAGS.length)];
 };

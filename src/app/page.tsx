@@ -1,12 +1,7 @@
 import type { Metadata } from "next";
 import SpendingTest from "@/components/spending-test";
 import { CHARACTERS } from "@/lib/characters";
-import { parseRefCode } from "@/lib/utils";
-import type { MainCode } from "@/types";
-
-const isMainCode = (code: string): code is MainCode => {
-  return code in CHARACTERS;
-};
+import { isMainCode, parseRefCode } from "@/lib/utils";
 
 export const generateMetadata = async ({
   searchParams,

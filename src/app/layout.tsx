@@ -32,6 +32,17 @@ const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
         style={{ fontFamily: "'Pretendard Variable', Pretendard, sans-serif" }}
       >
         {children}
+        {process.env.NEXT_PUBLIC_GA_ID && (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
+              strategy="afterInteractive"
+            />
+            <Script id="ga4-init" strategy="afterInteractive">
+              {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${process.env.NEXT_PUBLIC_GA_ID}');`}
+            </Script>
+          </>
+        )}
         {process.env.NEXT_PUBLIC_KAKAO_JS_KEY && (
           <Script
             src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js"

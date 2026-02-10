@@ -6,7 +6,7 @@ import QuestionScreen from "@/components/question-screen";
 import RefPreview from "@/components/ref-preview";
 import ResultScreen from "@/components/result-screen";
 import { CHARACTERS, QUESTIONS } from "@/lib/characters";
-import { deriveResult, getRandomTag, trackEvent } from "@/lib/utils";
+import { deriveResult, trackEvent } from "@/lib/utils";
 import type { AppState, MainCode } from "@/types";
 
 const SpendingTest = ({ refCode }: { refCode: MainCode | null }) => {
@@ -42,11 +42,10 @@ const SpendingTest = ({ refCode }: { refCode: MainCode | null }) => {
       setState({ phase: "question", qi: qi + 1, answers: nextAnswers, refCode });
     } else {
       const { mainCode, subCode } = deriveResult(nextAnswers);
-      const randomTag = getRandomTag();
-      setState({ phase: "loading", mainCode, subCode, randomTag, refCode });
+      setState({ phase: "loading", mainCode, subCode, refCode });
 
       setTimeout(() => {
-        setState({ phase: "result", mainCode, subCode, randomTag, refCode });
+        setState({ phase: "result", mainCode, subCode, refCode });
       }, 2100);
     }
   };
@@ -72,12 +71,7 @@ const SpendingTest = ({ refCode }: { refCode: MainCode | null }) => {
     }
     if (state.phase === "result") {
       return (
-        <ResultScreen
-          mainCode={state.mainCode}
-          subCode={state.subCode}
-          randomTag={state.randomTag}
-          refCode={state.refCode}
-        />
+        <ResultScreen mainCode={state.mainCode} subCode={state.subCode} refCode={state.refCode} />
       );
     }
     return null;
