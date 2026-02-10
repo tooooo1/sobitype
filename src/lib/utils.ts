@@ -1,5 +1,5 @@
 import { CHARACTERS, COMPAT_COMMENTS } from "@/lib/characters";
-import type { EIAxis, GAEventName, MainCode } from "@/types";
+import type { CharacterStats, EIAxis, GAEventName, MainCode } from "@/types";
 
 declare global {
   interface Window {
@@ -25,6 +25,10 @@ declare global {
     };
   }
 }
+
+export const getTotalScore = (stats: CharacterStats): number => {
+  return Math.round((stats.plan + stats.invest + stats.yolo) / 3);
+};
 
 export const isMainCode = (code: string): code is MainCode => {
   return code in CHARACTERS;

@@ -1,5 +1,6 @@
 "use client";
 
+import { getTotalScore } from "@/lib/utils";
 import type { Character } from "@/types";
 
 interface RefPreviewProps {
@@ -8,9 +9,7 @@ interface RefPreviewProps {
 }
 
 const RefPreview = ({ refCharacter, onStart }: RefPreviewProps) => {
-  const totalScore = Math.round(
-    (refCharacter.stats.plan + refCharacter.stats.invest + refCharacter.stats.yolo) / 3,
-  );
+  const totalScore = getTotalScore(refCharacter.stats);
 
   return (
     <main
