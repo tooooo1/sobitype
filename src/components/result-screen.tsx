@@ -12,7 +12,7 @@ interface ResultScreenProps {
   refCode: MainCode | null;
 }
 
-const ResultScreen = ({ mainCode, subCode, randomTag, refCode }: ResultScreenProps) => {
+const ResultScreen = ({ mainCode, subCode, randomTag: _randomTag, refCode }: ResultScreenProps) => {
   const [copied, setCopied] = useState(false);
   const [showCompat, setShowCompat] = useState(false);
 
@@ -21,6 +21,12 @@ const ResultScreen = ({ mainCode, subCode, randomTag, refCode }: ResultScreenPro
   const bestMatch = CHARACTERS[character.match.best];
   const worstMatch = CHARACTERS[character.match.worst];
   const refCharacter = refCode ? CHARACTERS[refCode] : null;
+
+  const today = new Date();
+  const dateStr = `${today.getFullYear()}.${String(today.getMonth() + 1).padStart(2, "0")}.${String(today.getDate()).padStart(2, "0")}`;
+  const totalScore = Math.round(
+    (character.stats.plan + character.stats.invest + character.stats.yolo) / 3,
+  );
 
   useEffect(() => {
     trackEvent("result_view", {
@@ -76,132 +82,163 @@ const ResultScreen = ({ mainCode, subCode, randomTag, refCode }: ResultScreenPro
     });
   };
 
-  const statBar = (label: string, value: number) => {
-    return (
-      <div className="flex items-center gap-3">
-        <span className="w-16 text-sm text-white/40">{label}</span>
-        <div className="flex-1 h-1.5 rounded-pill bg-white/8 overflow-hidden">
-          <div
-            className="h-full rounded-pill motion-safe:transition-all motion-safe:duration-1000 ease-out"
-            style={{ width: `${value}%`, backgroundColor: character.color }}
-          />
-        </div>
-        <span
-          className="w-8 text-sm text-right font-bold tabular-nums"
-          style={{ color: character.color }}
-        >
-          {value}
-        </span>
-      </div>
-    );
+  const statBar = (value: number) => {
+    const filled = Math.round(value / 10);
+    const empty = 10 - filled;
+    return "\u2588".repeat(filled) + "\u2591".repeat(empty);
   };
 
   return (
-    <main className="flex flex-col items-center min-h-screen px-6 pt-12 pb-10">
-      {/* IDENTITY — 스크린샷 영역 */}
-      <div className="text-8xl mb-2" role="img" aria-label={character.name}>
-        {character.emoji}
-      </div>
-      <h1 className="text-[2.25rem] font-bold" style={{ color: character.color }}>
-        {character.name}
-      </h1>
-      <p className="text-white/50 text-center leading-relaxed mt-2 max-w-[280px]">
-        {character.oneLiner}
-      </p>
+    <main className="flex flex-col items-center min-h-screen px-4 pt-8 pb-10">
+      {/* Receipt card */}
+      <div className="w-full max-w-[340px] animate-receipt-print">
+        {/* Top zigzag edge */}
+        <div className="receipt-edge-top w-full h-[10px]" />
 
-      {/* RARITY — 히어로 스탯 */}
-      <div className="flex flex-col items-center mt-8 mb-8">
-        <span className="text-xs text-white/30 mb-1">100명 중</span>
-        <div className="flex items-baseline gap-1">
-          <span
-            className="text-[3rem] font-bold leading-none tabular-nums"
-            style={{ color: character.color }}
-          >
-            {character.rarity}
-          </span>
-          <span className="text-xl font-bold" style={{ color: character.color }}>
-            명
-          </span>
+        {/* Receipt body */}
+        <div className="receipt-body px-6 py-6">
+          {/* Header */}
+          <div className="text-center mb-4">
+            <h2 className="text-[13px] font-bold tracking-[0.2em] text-[#2a2a2e]">
+              SOBITYPE 소비연구소
+            </h2>
+            <div className="receipt-divider-thick my-2" />
+            <p className="text-[11px] text-[#2a2a2e]/50">소비 성향 명세서</p>
+          </div>
+
+          {/* Meta info */}
+          <div className="flex justify-between text-[11px] text-[#2a2a2e]/50 mb-1">
+            <span>
+              날짜 <span className="font-mono ml-1">{dateStr}</span>
+            </span>
+            <span>
+              No. <span className="font-mono ml-1">#{fullCode}</span>
+            </span>
+          </div>
+
+          <div className="receipt-divider" />
+
+          {/* Character identity */}
+          <div className="text-center py-2">
+            <div className="text-4xl mb-2" role="img" aria-label={character.name}>
+              {character.emoji}
+            </div>
+            <h1 className="text-[1.35rem] font-bold text-[#2a2a2e]">{character.name}</h1>
+            <p className="text-[12px] text-[#2a2a2e]/45 mt-1">&ldquo;{character.title}&rdquo;</p>
+          </div>
+
+          <div className="receipt-divider" />
+
+          {/* Stats */}
+          <div className="py-1">
+            <h3 className="text-[12px] font-bold text-[#2a2a2e] mb-3">■ 소비 성향 분석</h3>
+            <div className="flex flex-col gap-1.5">
+              {[
+                { label: "계획력", value: character.stats.plan },
+                { label: "투자성향", value: character.stats.invest },
+                { label: "YOLO", value: character.stats.yolo },
+              ].map(({ label, value }) => (
+                <div key={label} className="flex items-center text-[11px] text-[#2a2a2e]">
+                  <span className="w-[60px] shrink-0 text-[#2a2a2e]/60">{label}</span>
+                  <span className="font-mono tracking-tight flex-1">{statBar(value)}</span>
+                  <span className="font-mono w-[28px] text-right font-bold">{value}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="receipt-divider" />
+
+          {/* Detail */}
+          <div className="py-1">
+            <h3 className="text-[12px] font-bold text-[#2a2a2e] mb-3">■ 상세 진단</h3>
+            <p className="text-[12px] text-[#2a2a2e]/70 leading-relaxed mb-3">
+              {character.oneLiner}
+            </p>
+            <ul className="flex flex-col gap-1">
+              {character.traits.map((trait) => (
+                <li key={trait} className="text-[11px] text-[#2a2a2e]/55 leading-relaxed">
+                  · {trait}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="receipt-divider" />
+
+          {/* Rarity */}
+          <div className="py-1">
+            <h3 className="text-[12px] font-bold text-[#2a2a2e] mb-3">■ 희귀도</h3>
+            <div className="flex justify-between text-[12px] text-[#2a2a2e]">
+              <span className="text-[#2a2a2e]/50">100명 중</span>
+              <span className="font-mono font-bold">{character.rarity}명</span>
+            </div>
+            <div className="flex justify-between text-[12px] text-[#2a2a2e] mt-1">
+              <span className="text-[#2a2a2e]/50">등급</span>
+              <span className="font-bold">{character.badge}</span>
+            </div>
+          </div>
+
+          <div className="receipt-divider" />
+
+          {/* Compat */}
+          {refCharacter && refCode && showCompat ? (
+            <div className="py-1">
+              <h3 className="text-[12px] font-bold text-[#2a2a2e] mb-3">■ 우리 궁합</h3>
+              <div className="flex items-center justify-center gap-6 mb-3">
+                <div className="flex flex-col items-center gap-0.5">
+                  <span className="text-2xl">{character.emoji}</span>
+                  <span className="text-[10px] text-[#2a2a2e]/40">나</span>
+                </div>
+                <span className="text-[#2a2a2e]/25 text-lg">&times;</span>
+                <div className="flex flex-col items-center gap-0.5">
+                  <span className="text-2xl">{refCharacter.emoji}</span>
+                  <span className="text-[10px] text-[#2a2a2e]/40">친구</span>
+                </div>
+              </div>
+              <p className="text-[11px] text-[#2a2a2e]/55 text-center leading-relaxed">
+                {getCompatComment(mainCode, refCode)}
+              </p>
+            </div>
+          ) : (
+            <div className="py-1">
+              <h3 className="text-[12px] font-bold text-[#2a2a2e] mb-3">■ 궁합</h3>
+              <div className="flex justify-between text-[12px] text-[#2a2a2e]">
+                <span className="text-[#2a2a2e]/50">찰떡</span>
+                <span>
+                  {bestMatch.emoji} {bestMatch.name}
+                </span>
+              </div>
+              <div className="flex justify-between text-[12px] text-[#2a2a2e] mt-1">
+                <span className="text-[#2a2a2e]/50">상극</span>
+                <span>
+                  {worstMatch.emoji} {worstMatch.name}
+                </span>
+              </div>
+            </div>
+          )}
+
+          {/* Total separator */}
+          <div className="receipt-divider-thick my-3" />
+
+          {/* Total */}
+          <div className="text-center py-1">
+            <p className="text-[11px] text-[#2a2a2e]/50 mb-1">합계 — 당신의 소비력</p>
+            <p className="font-mono text-[15px] font-bold text-[#2a2a2e] tracking-tight">
+              {statBar(totalScore)} {totalScore}
+            </p>
+          </div>
+
+          {/* Barcode */}
+          <div className="receipt-barcode mt-5 mx-auto" />
         </div>
-        <span className="text-xs text-white/30 mt-1">만 이 유형이에요</span>
-        <span
-          className="mt-2 px-3 py-0.5 rounded-pill text-xs font-bold"
-          style={{ backgroundColor: character.badgeColor, color: "#1a1a1a" }}
-        >
-          {character.badge}
-        </span>
+
+        {/* Bottom zigzag edge */}
+        <div className="receipt-edge-bottom w-full h-[10px]" />
       </div>
 
-      {/* STATS */}
-      <div className="w-full max-w-sm flex flex-col gap-3 mb-8">
-        {statBar("계획력", character.stats.plan)}
-        {statBar("투자성향", character.stats.invest)}
-        {statBar("YOLO", character.stats.yolo)}
-      </div>
-
-      {/* DETAIL — 세부 설명 */}
-      <section className="w-full max-w-sm mb-8" aria-label="세부 설명">
-        <div className="w-10 mx-auto border-t border-white/8 mb-6" />
-        <p className="text-white/60 text-sm leading-relaxed text-center mb-5">
-          {character.description}
-        </p>
-        <ul className="flex flex-col gap-2.5">
-          {character.traits.map((trait) => (
-            <li
-              key={trait}
-              className="text-sm text-white/45 leading-relaxed bg-white/4 rounded-xlarge px-4 py-3"
-            >
-              {trait}
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      {/* COMPAT — referral */}
-      {refCharacter && refCode && showCompat && (
-        <section className="w-full max-w-sm mb-6" aria-label="궁합 결과">
-          <div className="w-10 mx-auto border-t border-white/8 mb-6" />
-          <div className="flex items-center justify-center gap-8 mb-3">
-            <div className="flex flex-col items-center gap-1">
-              <span className="text-4xl">{character.emoji}</span>
-              <span className="text-xs text-white/30">나</span>
-            </div>
-            <div className="flex flex-col items-center gap-1">
-              <span className="text-4xl">{refCharacter.emoji}</span>
-              <span className="text-xs text-white/30">친구</span>
-            </div>
-          </div>
-          <p className="text-white/45 text-sm text-center leading-relaxed mb-4">
-            {getCompatComment(mainCode, refCode)}
-          </p>
-        </section>
-      )}
-
-      {/* COMPAT — static */}
-      {!refCharacter && (
-        <section className="w-full max-w-sm mb-6" aria-label="궁합 정보">
-          <div className="w-10 mx-auto border-t border-white/8 mb-6" />
-          <div className="flex justify-center gap-8">
-            <div className="flex items-center gap-2">
-              <span className="text-2xl">{bestMatch.emoji}</span>
-              <div>
-                <p className="text-[10px] text-white/30">찰떡궁합</p>
-                <p className="text-sm font-semibold text-white/60">{bestMatch.name}</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-2xl">{worstMatch.emoji}</span>
-              <div>
-                <p className="text-[10px] text-white/30">상극</p>
-                <p className="text-sm font-semibold text-white/60">{worstMatch.name}</p>
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* CTA — 하단 버튼 모음 */}
-      <div className="flex flex-col gap-2.5 w-full max-w-sm mb-6">
+      {/* CTA buttons — dark theme */}
+      <div className="flex flex-col gap-2.5 w-full max-w-[340px] mt-8 mb-6">
         <button
           type="button"
           onClick={handleKakao}
