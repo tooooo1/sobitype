@@ -28,7 +28,6 @@ const loadFonts = async (): Promise<{
 
 const W = 680;
 
-// Convert SVG string to base64 data URI (Satori needs base64 for <img>)
 const svgToBase64 = (svg: string): string => {
   const b64 = Buffer.from(svg).toString("base64");
   return `data:image/svg+xml;base64,${b64}`;
@@ -142,7 +141,6 @@ export const GET = async (request: Request) => {
         paddingTop: 30,
       }}
     >
-      {/* Top zigzag edge */}
       <div
         style={{
           display: "flex",
@@ -153,7 +151,6 @@ export const GET = async (request: Request) => {
         }}
       />
 
-      {/* Receipt body */}
       <div
         style={{
           display: "flex",
@@ -165,7 +162,6 @@ export const GET = async (request: Request) => {
           color: "#2a2a2e",
         }}
       >
-        {/* Header */}
         <div
           style={{
             display: "flex",
@@ -194,7 +190,6 @@ export const GET = async (request: Request) => {
           <div style={{ fontSize: 22, color: "rgba(42,42,46,0.5)" }}>소비 성향 명세서</div>
         </div>
 
-        {/* Meta info */}
         <div
           style={{
             display: "flex",
@@ -210,7 +205,6 @@ export const GET = async (request: Request) => {
 
         <div style={dividerStyle} />
 
-        {/* Character identity */}
         <div
           style={{
             display: "flex",
@@ -248,7 +242,6 @@ export const GET = async (request: Request) => {
 
         <div style={dividerStyle} />
 
-        {/* Stats */}
         <div
           style={{
             display: "flex",
@@ -316,7 +309,6 @@ export const GET = async (request: Request) => {
 
         <div style={dividerStyle} />
 
-        {/* Detail */}
         <div
           style={{
             display: "flex",
@@ -375,7 +367,6 @@ export const GET = async (request: Request) => {
 
         <div style={dividerStyle} />
 
-        {/* Rarity */}
         <div
           style={{
             display: "flex",
@@ -420,7 +411,6 @@ export const GET = async (request: Request) => {
 
         <div style={dividerStyle} />
 
-        {/* Compat */}
         {refCharacter && refCode ? (
           <div
             style={{
@@ -533,7 +523,6 @@ export const GET = async (request: Request) => {
 
         <div style={thickDividerStyle} />
 
-        {/* Total */}
         <div
           style={{
             display: "flex",
@@ -583,7 +572,6 @@ export const GET = async (request: Request) => {
           </div>
         </div>
 
-        {/* Barcode */}
         <div
           style={{
             display: "flex",
@@ -604,7 +592,6 @@ export const GET = async (request: Request) => {
         </div>
       </div>
 
-      {/* Bottom zigzag edge */}
       <div
         style={{
           display: "flex",

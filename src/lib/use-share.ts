@@ -68,7 +68,6 @@ export const useShare = ({ mainCode, subCode, character, refCode }: UseSharePara
       }
     }
 
-    // Fallback: Web Share API
     if (typeof navigator.share === "function") {
       navigator
         .share({
@@ -82,7 +81,6 @@ export const useShare = ({ mainCode, subCode, character, refCode }: UseSharePara
       return;
     }
 
-    // Final fallback: clipboard
     copyToClipboard(shareUrl).then((ok) => {
       showFeedback(ok ? "link-copied" : "link-failed");
     });
@@ -122,12 +120,11 @@ export const useShare = ({ mainCode, subCode, character, refCode }: UseSharePara
             });
             return;
           } catch {
-            // share failed (not just cancelled) — fall through to download
+            /* fall through to download */
           }
         }
       }
 
-      // Fallback: download
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.download = "sobitype-result.png";

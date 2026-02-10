@@ -49,7 +49,6 @@ const ResultScreen = ({ mainCode, subCode, refCode, onRestart }: ResultScreenPro
     <main className="flex flex-col items-center min-h-screen px-4 pt-8 pb-10">
       <ReceiptCard character={character} mainCode={mainCode} subCode={subCode} refCode={refCode} />
 
-      {/* Welfare CTA */}
       <a
         href={`https://www.welfarehello.com?utm_source=sobitype&utm_medium=result&utm_campaign=${mainCode}`}
         target="_blank"
@@ -61,7 +60,6 @@ const ResultScreen = ({ mainCode, subCode, refCode, onRestart }: ResultScreenPro
         💰 숨은 정부 혜택 확인하기
       </a>
 
-      {/* CTA buttons */}
       <div className="flex flex-col gap-2.5 w-full max-w-[340px] mt-4 mb-6">
         <button
           type="button"

@@ -43,7 +43,6 @@ export const isEIAxis = (code: string): code is EIAxis => {
   return code === "E" || code === "I";
 };
 
-// answers[0]=SP, answers[1]=EI, answers[2]=NR, answers[3]=FL
 export const deriveResult = (answers: string[]): { mainCode: MainCode; subCode: EIAxis } => {
   const mainCode = `${answers[0]}${answers[2]}${answers[3]}`;
   const subCode = answers[1];

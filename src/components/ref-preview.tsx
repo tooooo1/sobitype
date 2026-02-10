@@ -28,7 +28,6 @@ const RefPreview = ({ refCharacter, onStart }: RefPreviewProps) => {
 
       <p className="text-white/40 text-sm mb-6">{refCharacter.title}</p>
 
-      {/* Mini stats card */}
       <div className="w-full max-w-[260px] bg-white/[0.06] rounded-xlarge px-5 py-4 mb-8">
         <div className="flex justify-between text-[11px] text-white/40 mb-2">
           <span>소비력</span>

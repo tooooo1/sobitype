@@ -28,12 +28,9 @@ const ReceiptCard = ({ character, mainCode, subCode, refCode }: ReceiptCardProps
 
   return (
     <div className="w-full max-w-[340px] animate-receipt-print">
-      {/* Top zigzag edge */}
       <div className="receipt-edge-top w-full h-[10px]" />
 
-      {/* Receipt body */}
       <div className="receipt-body px-6 py-6">
-        {/* Header */}
         <div className="text-center mb-4">
           <h2 className="text-[13px] font-bold tracking-[0.2em] text-receipt-text">
             SOBITYPE 소비연구소
@@ -42,7 +39,6 @@ const ReceiptCard = ({ character, mainCode, subCode, refCode }: ReceiptCardProps
           <p className="text-[11px] text-receipt-text/50">소비 성향 명세서</p>
         </div>
 
-        {/* Meta info */}
         <div className="flex justify-between text-[11px] text-receipt-text/50 mb-1">
           <span>
             날짜 <span className="font-mono ml-1">{dateStr}</span>
@@ -54,7 +50,6 @@ const ReceiptCard = ({ character, mainCode, subCode, refCode }: ReceiptCardProps
 
         <div className="receipt-divider" />
 
-        {/* Character identity */}
         <div className="text-center py-2">
           <div className="text-4xl mb-2" role="img" aria-label={character.name}>
             {character.emoji}
@@ -68,7 +63,6 @@ const ReceiptCard = ({ character, mainCode, subCode, refCode }: ReceiptCardProps
 
         <div className="receipt-divider" />
 
-        {/* Compatibility - Main Feature */}
         {refCharacter && refCode ? (
           <div className="py-2">
             <h3 className="text-[12px] font-bold text-receipt-text mb-3">■ 소비 궁합 결과</h3>
@@ -113,7 +107,6 @@ const ReceiptCard = ({ character, mainCode, subCode, refCode }: ReceiptCardProps
 
         <div className="receipt-divider" />
 
-        {/* Stats */}
         <div className="py-1">
           <h3 className="text-[12px] font-bold text-receipt-text mb-3">■ 소비 성향 분석</h3>
           <div className="flex flex-col gap-1.5">
@@ -133,7 +126,6 @@ const ReceiptCard = ({ character, mainCode, subCode, refCode }: ReceiptCardProps
 
         <div className="receipt-divider" />
 
-        {/* Detail */}
         <div className="py-1">
           <h3 className="text-[12px] font-bold text-receipt-text mb-3">■ 상세 진단</h3>
           <p className="text-[12px] text-receipt-text/70 leading-relaxed mb-3">
@@ -160,7 +152,6 @@ const ReceiptCard = ({ character, mainCode, subCode, refCode }: ReceiptCardProps
 
         <div className="receipt-divider" />
 
-        {/* Rarity */}
         <div className="py-1">
           <h3 className="text-[12px] font-bold text-receipt-text mb-3">■ 희귀도</h3>
           <div className="flex justify-between text-[12px] text-receipt-text">
@@ -173,7 +164,6 @@ const ReceiptCard = ({ character, mainCode, subCode, refCode }: ReceiptCardProps
           </div>
         </div>
 
-        {/* Best/worst match hints - only without refCode */}
         {!refCode && (
           <>
             <div className="receipt-divider" />
@@ -195,10 +185,8 @@ const ReceiptCard = ({ character, mainCode, subCode, refCode }: ReceiptCardProps
           </>
         )}
 
-        {/* Total separator */}
         <div className="receipt-divider-thick my-3" />
 
-        {/* Total */}
         <div className="py-1">
           <p className="text-[11px] text-receipt-text/50 mb-2 text-center">합계 — 총 소비력</p>
           <div className="flex items-center gap-2">
@@ -211,11 +199,9 @@ const ReceiptCard = ({ character, mainCode, subCode, refCode }: ReceiptCardProps
           </div>
         </div>
 
-        {/* Barcode */}
         <div className="receipt-barcode mt-5 mx-auto" />
       </div>
 
-      {/* Bottom zigzag edge */}
       <div className="receipt-edge-bottom w-full h-[10px]" />
     </div>
   );
