@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CHARACTERS } from "@/lib/characters";
 import { buildShareURL, getCompatComment, trackEvent } from "@/lib/utils";
 import type { EIAxis, MainCode } from "@/types";
@@ -15,6 +15,8 @@ interface ResultScreenProps {
 const ResultScreen = ({ mainCode, subCode, randomTag: _randomTag, refCode }: ResultScreenProps) => {
   const [copied, setCopied] = useState(false);
   const [showCompat, setShowCompat] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const receiptRef = useRef<HTMLDivElement>(null);
 
   const character = CHARACTERS[mainCode];
   const fullCode = `${mainCode}${subCode}`;
@@ -55,17 +57,114 @@ const ResultScreen = ({ mainCode, subCode, randomTag: _randomTag, refCode }: Res
     }
   };
 
+  const handleKakao = () => {
+    trackEvent("share_kakao", { channel: "kakao", full_code: fullCode });
+    const shareUrl = buildShareURL(mainCode, subCode, "kakao");
+
+    if (typeof window !== "undefined" && window.Kakao?.Share) {
+      if (!window.Kakao.isInitialized()) {
+        const key = process.env.NEXT_PUBLIC_KAKAO_JS_KEY;
+        if (key) {
+          window.Kakao.init(key);
+        }
+      }
+
+      if (window.Kakao.isInitialized()) {
+        window.Kakao.Share.sendDefault({
+          objectType: "feed",
+          content: {
+            title: `${character.emoji} ${character.name}`,
+            description: `${character.title} — 너는 어떤 소비 캐릭터야?`,
+            imageUrl: `${window.location.origin}/api/og?code=${mainCode}`,
+            link: {
+              mobileWebUrl: shareUrl,
+              webUrl: shareUrl,
+            },
+          },
+          buttons: [
+            {
+              title: "나도 테스트하기",
+              link: {
+                mobileWebUrl: shareUrl,
+                webUrl: shareUrl,
+              },
+            },
+          ],
+        });
+        return;
+      }
+    }
+
+    // Fallback: Web Share API
+    if (typeof navigator.share === "function") {
+      navigator
+        .share({
+          title: `${character.emoji} ${character.name}`,
+          text: `${character.title} — 너는 어떤 소비 캐릭터야?`,
+          url: shareUrl,
+        })
+        .catch(() => {
+          /* user cancelled */
+        });
+      return;
+    }
+
+    // Final fallback: clipboard
+    copyToClipboard(shareUrl, () => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  };
+
+  const handleSaveImage = async () => {
+    if (!receiptRef.current || saving) {
+      return;
+    }
+
+    setSaving(true);
+    try {
+      const html2canvas = (await import("html2canvas")).default;
+      const canvas = await html2canvas(receiptRef.current, {
+        backgroundColor: "#141418",
+        scale: 2,
+      });
+
+      const canShareFiles =
+        typeof navigator.share === "function" && typeof navigator.canShare === "function";
+
+      if (canShareFiles) {
+        const blob = await new Promise<Blob | null>((resolve) =>
+          canvas.toBlob(resolve, "image/png"),
+        );
+        if (blob) {
+          const file = new File([blob], "sobitype-result.png", { type: "image/png" });
+          if (navigator.canShare({ files: [file] })) {
+            await navigator.share({ files: [file] });
+            trackEvent("share_image", { channel: "share_api", full_code: fullCode });
+            return;
+          }
+        }
+      }
+
+      // Fallback: download
+      const link = document.createElement("a");
+      link.download = "sobitype-result.png";
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+      trackEvent("share_image", { channel: "download", full_code: fullCode });
+    } catch {
+      /* noop */
+    } finally {
+      setSaving(false);
+    }
+  };
+
   const handleCopyLink = () => {
     copyToClipboard(buildShareURL(mainCode, subCode, "link"), () => {
       setCopied(true);
       trackEvent("share_link", { channel: "link", full_code: fullCode });
       setTimeout(() => setCopied(false), 2000);
     });
-  };
-
-  const handleKakao = () => {
-    trackEvent("share_kakao", { channel: "kakao", full_code: fullCode });
-    alert("카카오톡 공유 기능은 곧 추가됩니다!");
   };
 
   const handleRestart = () => {
@@ -82,16 +181,16 @@ const ResultScreen = ({ mainCode, subCode, randomTag: _randomTag, refCode }: Res
     });
   };
 
-  const statBar = (value: number) => {
-    const filled = Math.round(value / 10);
-    const empty = 10 - filled;
-    return "\u2588".repeat(filled) + "\u2591".repeat(empty);
-  };
+  const StatBar = ({ value }: { value: number }) => (
+    <div className="flex-1 h-[10px] bg-[#2a2a2e]/10 overflow-hidden">
+      <div className="h-full bg-[#2a2a2e]" style={{ width: `${value}%` }} />
+    </div>
+  );
 
   return (
     <main className="flex flex-col items-center min-h-screen px-4 pt-8 pb-10">
       {/* Receipt card */}
-      <div className="w-full max-w-[340px] animate-receipt-print">
+      <div ref={receiptRef} className="w-full max-w-[340px] animate-receipt-print">
         {/* Top zigzag edge */}
         <div className="receipt-edge-top w-full h-[10px]" />
 
@@ -138,9 +237,9 @@ const ResultScreen = ({ mainCode, subCode, randomTag: _randomTag, refCode }: Res
                 { label: "투자성향", value: character.stats.invest },
                 { label: "YOLO", value: character.stats.yolo },
               ].map(({ label, value }) => (
-                <div key={label} className="flex items-center text-[11px] text-[#2a2a2e]">
-                  <span className="w-[60px] shrink-0 text-[#2a2a2e]/60">{label}</span>
-                  <span className="font-mono tracking-tight flex-1">{statBar(value)}</span>
+                <div key={label} className="flex items-center gap-2 text-[11px] text-[#2a2a2e]">
+                  <span className="w-[52px] shrink-0 text-[#2a2a2e]/60">{label}</span>
+                  <StatBar value={value} />
                   <span className="font-mono w-[28px] text-right font-bold">{value}</span>
                 </div>
               ))}
@@ -155,13 +254,23 @@ const ResultScreen = ({ mainCode, subCode, randomTag: _randomTag, refCode }: Res
             <p className="text-[12px] text-[#2a2a2e]/70 leading-relaxed mb-3">
               {character.oneLiner}
             </p>
-            <ul className="flex flex-col gap-1">
-              {character.traits.map((trait) => (
-                <li key={trait} className="text-[11px] text-[#2a2a2e]/55 leading-relaxed">
-                  · {trait}
-                </li>
+            <div className="flex flex-col gap-1.5">
+              {character.traits.map(({ label, value }) => (
+                <div
+                  key={label}
+                  className="flex items-baseline text-[11px] font-mono text-[#2a2a2e]"
+                >
+                  <span className="shrink-0 text-[#2a2a2e]/55">{label}</span>
+                  <span
+                    className="flex-1 overflow-hidden whitespace-nowrap text-[#2a2a2e]/20 mx-0.5"
+                    aria-hidden="true"
+                  >
+                    {".................................................."}
+                  </span>
+                  <span className="shrink-0 font-bold">{value}</span>
+                </div>
               ))}
-            </ul>
+            </div>
           </div>
 
           <div className="receipt-divider" />
@@ -175,7 +284,7 @@ const ResultScreen = ({ mainCode, subCode, randomTag: _randomTag, refCode }: Res
             </div>
             <div className="flex justify-between text-[12px] text-[#2a2a2e] mt-1">
               <span className="text-[#2a2a2e]/50">등급</span>
-              <span className="font-bold">{character.badge}</span>
+              <span className="font-mono font-bold">[{character.badge}]</span>
             </div>
           </div>
 
@@ -222,11 +331,16 @@ const ResultScreen = ({ mainCode, subCode, randomTag: _randomTag, refCode }: Res
           <div className="receipt-divider-thick my-3" />
 
           {/* Total */}
-          <div className="text-center py-1">
-            <p className="text-[11px] text-[#2a2a2e]/50 mb-1">합계 — 당신의 소비력</p>
-            <p className="font-mono text-[15px] font-bold text-[#2a2a2e] tracking-tight">
-              {statBar(totalScore)} {totalScore}
-            </p>
+          <div className="py-1">
+            <p className="text-[11px] text-[#2a2a2e]/50 mb-2 text-center">합계 — 당신의 소비력</p>
+            <div className="flex items-center gap-2">
+              <div className="flex-1 h-[12px] bg-[#2a2a2e]/10 overflow-hidden">
+                <div className="h-full bg-[#2a2a2e]" style={{ width: `${totalScore}%` }} />
+              </div>
+              <span className="font-mono text-[15px] font-bold text-[#2a2a2e] w-[28px] text-right">
+                {totalScore}
+              </span>
+            </div>
           </div>
 
           {/* Barcode */}
@@ -237,7 +351,7 @@ const ResultScreen = ({ mainCode, subCode, randomTag: _randomTag, refCode }: Res
         <div className="receipt-edge-bottom w-full h-[10px]" />
       </div>
 
-      {/* CTA buttons — dark theme */}
+      {/* CTA buttons */}
       <div className="flex flex-col gap-2.5 w-full max-w-[340px] mt-8 mb-6">
         <button
           type="button"
@@ -245,7 +359,15 @@ const ResultScreen = ({ mainCode, subCode, randomTag: _randomTag, refCode }: Res
           className="w-full py-4 rounded-xlarge font-semibold transition-transform active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400"
           style={{ backgroundColor: "#FEE500", color: "#191919" }}
         >
-          카카오톡으로 자랑하기
+          카카오톡으로 공유하기
+        </button>
+        <button
+          type="button"
+          onClick={handleSaveImage}
+          disabled={saving}
+          className="w-full py-3.5 rounded-xlarge bg-white/10 text-white/70 font-semibold transition-transform active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60 disabled:opacity-50"
+        >
+          {saving ? "저장 중..." : "이미지로 저장하기"}
         </button>
         <button
           type="button"

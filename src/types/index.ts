@@ -37,7 +37,7 @@ export interface Character {
   readonly badgeColor: string;
   readonly stats: CharacterStats;
   readonly oneLiner: string;
-  readonly traits: readonly string[];
+  readonly traits: readonly { readonly label: string; readonly value: string }[];
   readonly match: { readonly best: MainCode; readonly worst: MainCode };
 }
 
@@ -50,6 +50,7 @@ export type GAEventName =
   | "share_kakao"
   | "share_oneline"
   | "share_link"
+  | "share_image"
   | "compat_auto"
   | "compat_share"
   | "ref_landing"
