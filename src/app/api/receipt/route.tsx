@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 import { CHARACTERS, SUB_TAGS } from "@/lib/characters";
-import { getCompatComment, getTotalScore, isEIAxis, isMainCode } from "@/lib/utils";
+import { formatDate, getCompatComment, getTotalScore, isEIAxis, isMainCode } from "@/lib/utils";
 
 const FONT_BOLD_URL =
   "https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/packages/pretendard/dist/public/static/Pretendard-Bold.otf";
@@ -126,8 +126,7 @@ export const GET = async (request: Request) => {
   const worstMatch = CHARACTERS[character.match.worst];
   const totalScore = getTotalScore(character.stats);
 
-  const today = new Date();
-  const dateStr = `${today.getFullYear()}.${String(today.getMonth() + 1).padStart(2, "0")}.${String(today.getDate()).padStart(2, "0")}`;
+  const dateStr = formatDate();
 
   const H = refCode ? 2200 : 2100;
 

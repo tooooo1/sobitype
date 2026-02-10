@@ -9,6 +9,8 @@ import { CHARACTERS, QUESTIONS } from "@/lib/characters";
 import { deriveResult, trackEvent } from "@/lib/utils";
 import type { AppState, MainCode } from "@/types";
 
+const LOADING_DURATION = 2100;
+
 const SpendingTest = ({ refCode }: { refCode: MainCode | null }) => {
   const [state, setState] = useState<AppState>(() => {
     if (refCode) {
@@ -46,7 +48,7 @@ const SpendingTest = ({ refCode }: { refCode: MainCode | null }) => {
 
       setTimeout(() => {
         setState({ phase: "result", mainCode, subCode, refCode });
-      }, 2100);
+      }, LOADING_DURATION);
     }
   };
 

@@ -11,6 +11,8 @@ interface QuestionScreenProps {
   onAnswer: (value: string) => void;
 }
 
+const ANSWER_DELAY = 900;
+
 const QuestionScreen = ({ question, index, total, onAnswer }: QuestionScreenProps) => {
   const [selected, setSelected] = useState<"A" | "B" | null>(null);
   const [flashText, setFlashText] = useState("");
@@ -32,7 +34,7 @@ const QuestionScreen = ({ question, index, total, onAnswer }: QuestionScreenProp
       axis_value: option.value,
     });
 
-    setTimeout(() => onAnswer(option.value), 900);
+    setTimeout(() => onAnswer(option.value), ANSWER_DELAY);
   };
 
   const renderCard = (choice: "A" | "B") => {

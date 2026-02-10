@@ -9,6 +9,8 @@ interface UseShareParams {
   refCode: MainCode | null;
 }
 
+const COPY_FEEDBACK_DURATION = 2000;
+
 const copyToClipboard = async (text: string, onSuccess: () => void) => {
   try {
     await navigator.clipboard.writeText(text);
@@ -78,7 +80,7 @@ export const useShare = ({ mainCode, subCode, character, refCode }: UseSharePara
     // Final fallback: clipboard
     copyToClipboard(shareUrl, () => {
       setCopiedId("link");
-      setTimeout(() => setCopiedId(null), 2000);
+      setTimeout(() => setCopiedId(null), COPY_FEEDBACK_DURATION);
     });
   };
 
@@ -139,7 +141,7 @@ export const useShare = ({ mainCode, subCode, character, refCode }: UseSharePara
     copyToClipboard(buildShareURL(mainCode, subCode, "link"), () => {
       setCopiedId("link");
       trackEvent("share_link", { channel: "link", full_code: fullCode });
-      setTimeout(() => setCopiedId(null), 2000);
+      setTimeout(() => setCopiedId(null), COPY_FEEDBACK_DURATION);
     });
   };
 
