@@ -34,7 +34,7 @@ export const isMainCode = (code: string): code is MainCode => {
   return code in CHARACTERS;
 };
 
-const isEIAxis = (code: string): code is EIAxis => {
+export const isEIAxis = (code: string): code is EIAxis => {
   return code === "E" || code === "I";
 };
 

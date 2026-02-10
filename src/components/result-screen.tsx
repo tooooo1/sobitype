@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import ReceiptCard from "@/components/receipt-card";
 import { CHARACTERS } from "@/lib/characters";
 import { useShare } from "@/lib/use-share";
@@ -15,7 +15,6 @@ interface ResultScreenProps {
 
 const ResultScreen = ({ mainCode, subCode, refCode }: ResultScreenProps) => {
   const [showCompat, setShowCompat] = useState(false);
-  const receiptRef = useRef<HTMLDivElement>(null);
   const character = CHARACTERS[mainCode];
   const fullCode = `${mainCode}${subCode}`;
 
@@ -27,7 +26,7 @@ const ResultScreen = ({ mainCode, subCode, refCode }: ResultScreenProps) => {
     handleCopyLink,
     handleCopyOneline,
     handleCompatShare,
-  } = useShare({ mainCode, subCode, character, refCode, receiptRef });
+  } = useShare({ mainCode, subCode, character, refCode });
 
   useEffect(() => {
     trackEvent("result_view", {
@@ -48,7 +47,10 @@ const ResultScreen = ({ mainCode, subCode, refCode }: ResultScreenProps) => {
   }, [mainCode, fullCode, character, refCode]);
 
   const handleWelfareClick = () => {
-    trackEvent("click_welfare", { full_code: fullCode, character_name: character.name });
+    trackEvent("click_welfare", {
+      full_code: fullCode,
+      character_name: character.name,
+    });
   };
 
   const handleRestart = () => {
@@ -64,7 +66,6 @@ const ResultScreen = ({ mainCode, subCode, refCode }: ResultScreenProps) => {
         subCode={subCode}
         refCode={refCode}
         showCompat={showCompat}
-        receiptRef={receiptRef}
         onWelfareClick={handleWelfareClick}
       />
 

@@ -1,4 +1,3 @@
-import type { RefObject } from "react";
 import { useState } from "react";
 import { buildShareURL, trackEvent } from "@/lib/utils";
 import type { Character, EIAxis, MainCode } from "@/types";
@@ -8,7 +7,6 @@ interface UseShareParams {
   subCode: EIAxis;
   character: Character;
   refCode: MainCode | null;
-  receiptRef: RefObject<HTMLDivElement | null>;
 }
 
 const copyToClipboard = async (text: string, onSuccess: () => void) => {
@@ -20,7 +18,12 @@ const copyToClipboard = async (text: string, onSuccess: () => void) => {
   }
 };
 
-export const useShare = ({ mainCode, subCode, character, refCode, receiptRef }: UseShareParams) => {
+export const useShare = ({
+  mainCode,
+  subCode,
+  character,
+  refCode,
+}: UseShareParams) => {
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const fullCode = `${mainCode}${subCode}`;
@@ -85,30 +88,37 @@ export const useShare = ({ mainCode, subCode, character, refCode, receiptRef }: 
   };
 
   const handleSaveImage = async () => {
-    if (!receiptRef.current || saving) {
+    if (saving) {
       return;
     }
 
     setSaving(true);
     try {
-      const { toBlob } = await import("html-to-image");
-      const blob = await toBlob(receiptRef.current, {
-        backgroundColor: "#141418",
-        pixelRatio: 2,
-      });
-      if (!blob) {
+      const params = new URLSearchParams({ code: mainCode, sub: subCode });
+      if (refCode) {
+        params.set("ref", refCode);
+      }
+      const res = await fetch(`/api/receipt?${params}`);
+      if (!res.ok) {
         return;
       }
+      const blob = await res.blob();
 
       const canShareFiles =
-        typeof navigator.share === "function" && typeof navigator.canShare === "function";
+        typeof navigator.share === "function" &&
+        typeof navigator.canShare === "function";
 
       if (canShareFiles) {
-        const file = new File([blob], "sobitype-result.png", { type: "image/png" });
+        const file = new File([blob], "sobitype-result.png", {
+          type: "image/png",
+        });
         if (navigator.canShare({ files: [file] })) {
           try {
             await navigator.share({ files: [file] });
-            trackEvent("share_image", { channel: "share_api", full_code: fullCode });
+            trackEvent("share_image", {
+              channel: "share_api",
+              full_code: fullCode,
+            });
           } catch {
             /* user cancelled share */
           }
